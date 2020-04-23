@@ -12,4 +12,4 @@ def in_gra():
     return render_template('grafo.html')
 
 if __name__ == '__main__':
-    app.run(debug = True)
+    app.run(debug=True, host='localhost', port=5151)
