@@ -1,2 +1,4 @@
-venv
+servicio/venv
+servicio/__pycache__
+servicio/.vscode
 .vscode
