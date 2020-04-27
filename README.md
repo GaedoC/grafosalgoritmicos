@@ -1,4 +1,4 @@
-# Aplicación web de algortimos de grafos
+# Aplicación web de algoritmos de grafos
 
 ## API REST
 API en Flask para manejar grafos. Requiere Python 3 y una versión compatible de PIP. Para levantar el servicio:

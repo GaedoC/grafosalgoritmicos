@@ -5,7 +5,7 @@ api = Flask(__name__)
 
 @api.route('/', methods=['GET'])
 def conectar():
-    return {"mensaje": 'Conectado a servicio'}
+    return jsonify(mensaje='Conectado a servicio')
 
 @api.route('/grafo', methods=['POST'])
 def grafo():
@@ -18,4 +18,4 @@ def camino():
     return caminoMasCorto(content['grafo'], content['inicio'], content['final'])
 
 if __name__ == '__main__':
-    api.run(debug=True, host='localhost', port=5151)
+    api.run(threaded=True, debug=True, host='localhost', port=5151)
