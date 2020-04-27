@@ -1,6 +1,6 @@
 # grafos-punto-jota-pe-ge
-API en Flask para manejar grafos.
-## Pasos para levantar el servicio
+## API REST
+API en Flask para manejar grafos. Requiere Python 3 y una versión compatible de PIP. Para levantar el servicio:
 * Situarse en la carpeta `servicio`.
 * Crear un entorno virtual de Python (recomiendo virtualenv: `virtualenv -p [ruta de Python3] venv`).
 * En la línea de comandos, ejecutar `pip install -r requirements.txt`.
