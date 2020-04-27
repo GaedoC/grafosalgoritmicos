@@ -12,15 +12,22 @@
         </div>
       </div>
     </section>
-    <p>
-      Cacha mi botón de Buefy de pana
-      <b-button type="is-primary">Primary</b-button>
-    </p>
+    <div class="columns" style="align-items: flex-end; padding: 20px;">
+      <div class="column" style="padding: 20px;">
+        <nodos-input />
+      </div>
+      <div class="column"></div>
+    </div>
   </div>
 </template>
 
 <script>
+import NodosInput from "../components/NodosInput.vue";
+
 export default {
   name: "Main",
+  components: {
+    NodosInput,
+  },
 };
 </script>
