@@ -54,5 +54,43 @@ class Grafo(object):
             ruta.appendleft(vertice_actual)
         return list(deque(ruta))
 
+    @property
+    def matriz(self):
+        mat= []
+        for i in range(len(self.vertices)):
+            mat.append([0]*len(self.vertices))
+        i=0
+        a=0
+        while(i<len(mat)):
+            j=0
+            while(j<len(mat) and a<len(self.aristas)):
+                if(i==buscar_id(self.vertices,self.aristas[a][0]) and j==buscar_id(self.vertices,self.aristas[a][1])):
+                    mat[i][j] = self.aristas[a][2]
+                    mat[j][i] = self.aristas[a][2]
+                    a+=1
+                j+=1
+            i+=1
+        return mat
+
+    @property
+    def conexa(self):
+        a=0
+        mat= np.linalg.matrix_power(self.matriz, a)
+        a+=1
+        while(a<len(self.vertices)):
+            mat+=np.linalg.matrix_power(self.matriz, a)
+            a+=1
+        p=0
+        while(p<len(mat)):
+            q=0
+            while(q<len(mat)):
+                if(mat[p][q]==0):
+                    return False
+                q+=1
+            p+=1
+                        
+        return True
+        
+
     def __str__(self):
         return "Vertices: "+ str(self.vertices) + "\nAristas: " + str(self.obtener_aristas)
