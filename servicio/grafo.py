@@ -1,4 +1,12 @@
-from collections import deque, namedtuple
+from collections import deque, namedtuple,OrderedDict
+import numpy as np
+
+def buscar_id(L,a):
+        b=0
+        for i in L:   
+            if(i==a):
+                return b
+            b+=1
 
 Arista = namedtuple('Arista', 'inicio, final, costo')
 
@@ -11,7 +19,10 @@ class Grafo(object):
 
     @property
     def vertices(self):
-        return set(sum(([arista.inicio, arista.final] for arista in self.aristas), []))
+        V=[]
+        for letra in ("".join(OrderedDict.fromkeys(sum(([arista.inicio, arista.final] for arista in self.aristas), [])))):
+            V.append(letra)
+        return V
 
     @property
     def obtener_aristas(self):
