@@ -4,8 +4,9 @@ node_js:
 
 cache: npm
 
-script: 
- - cd cliente
+before_install: cd cliente
+
+script:
  - npm run build
 
 deploy:
