@@ -70,18 +70,15 @@ class Grafo(object):
         mat= []
         for i in range(len(self.vertices)):
             mat.append([0]*len(self.vertices))
-        i=0
         a=0
-        while(i<len(mat)):
-            j=0
-            while(j<len(mat) and a<len(self.aristas)):
-                if(i==buscar_id(self.vertices,self.aristas[a][0]) and j==buscar_id(self.vertices,self.aristas[a][1])):
-                    mat[i][j] = self.aristas[a][2]
-                    mat[j][i] = self.aristas[a][2]
-                    a+=1
-                j+=1
-            i+=1
+        while(a<len(self.aristas)):
+            i=buscar_id(self.vertices,self.aristas[a][0])
+            j=buscar_id(self.vertices,self.aristas[a][1])
+            mat[i][j] = self.aristas[a][2]
+            mat[j][i] = self.aristas[a][2]
+            a+=1
         return mat
+
 
     @property
     def conexa(self):
@@ -101,7 +98,33 @@ class Grafo(object):
             p+=1
                         
         return True
-        
+    
+    @property
+    def grados(self):
+        L=[]
+        for i in range(len(self.vertices)):
+            L.append(0)
+        a=0
+        while(a<len(self.aristas)):
+            i=buscar_id(self.vertices,self.aristas[a][0])
+            j=buscar_id(self.vertices,self.aristas[a][1])
+            L[i]+=1
+            L[j]+=1
+            a+=1
+        return L
+
+    @property
+    def hamilton(self):
+        if(self.conexa and len(self.vertices)>=3):
+            p=len(self.vertices)/2
+            for i in self.grados:
+                if(i < p):
+                    return False
+            return True  
+        return False
+
+
+
 
     def __str__(self):
         return "Vertices: "+ str(self.vertices) + "\nAristas: " + str(self.obtener_aristas)
