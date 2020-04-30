@@ -123,7 +123,17 @@ class Grafo(object):
             return True  
         return False
 
-
+    @property
+    def euler(self):
+        a=0
+        if(self.conexa):
+            
+            while a <len(self.grados):
+                if(self.grados[a]%2!=0):
+                    return False
+                a = a+1
+            return True  
+        return False
 
 
     def __str__(self):
