@@ -134,6 +134,33 @@ class Grafo(object):
         return False
 
     @property
+    def caminoH(self):
+        if(self.hamilton):
+            V = []
+            Ar = self.obtener_aristas
+            a=0
+            V.append(Ar[a][0])
+            b=0
+            D=Ar[a][1]
+            a=1
+            while(a<len(Ar)):
+                if(Ar[a][0]==D):
+                    V.append(Ar[a][0])
+                    D=Ar[a][1]
+                a+=1
+            if(a>=len(Ar)):
+                a=0
+                while(a<len(Ar) and b<1):
+                    if(Ar[a][1]==D):
+                        V.append(Ar[a][1])
+                        D=Ar[a][0]
+                        b+=1
+                    a+=1
+            V.append(Ar[0][0])
+            return V
+        return "No hay camino hamiltoniano"
+
+    @property
     def euler(self):
         a=0
         if(self.conexa):
