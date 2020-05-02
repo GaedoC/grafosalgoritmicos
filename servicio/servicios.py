@@ -18,4 +18,5 @@ def caminoMasCorto(grafo, inicio, final):
     grafo = parsearGrafo(grafo)
     print('-- Grafo --')
     print(grafo)
-    return jsonify(caminoMasCorto=grafo.dijkstra(inicio, final))
+    dijkstra = grafo.dijkstra(inicio, final)
+    return jsonify(caminoMasCorto=dijkstra[0], peso=dijkstra[1])
