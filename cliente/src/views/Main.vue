@@ -1,33 +1,72 @@
 <template>
-  <div class="hello is-primary">
-    <section class="hero is-primary">
-      <div class="hero-body">
-        <div class="container">
-          <h1 class="title">
-            Que tal gente del yutub
-          </h1>
-          <h2 class="subtitle">
-            Bienvenidos a un nuevo video de Minecraft 1.8
-          </h2>
-        </div>
+  <div>
+    <div class="columns" style="padding: 20px;">
+      <div class="column is-6" style="padding: 20px;">
+        <aristas-input />
       </div>
-    </section>
-    <div class="columns" style="align-items: flex-end; padding: 20px;">
-      <div class="column" style="padding: 20px;">
-        <nodos-input />
+      <div class="column is-6 is-paddingless" style="border: 1px solid grey;">
+        <cytoscape ref="cy" :config="config">
+          <cy-element
+            v-for="def in elements"
+            :key="`${def.data.id}`"
+            :definition="def"
+          />
+        </cytoscape>
       </div>
-      <div class="column"></div>
     </div>
   </div>
 </template>
 
 <script>
-import NodosInput from "../components/NodosInput.vue";
+import AristasInput from "../components/AristasInput.vue";
 
 export default {
   name: "Main",
   components: {
-    NodosInput,
+    AristasInput,
+  },
+  data: () => ({
+    config: {
+      zoom: 4,
+      elements: [
+        {
+          data: { id: "a" },
+          group: "nodes",
+        },
+        {
+          data: { id: "b" },
+          group: "nodes",
+        },
+        {
+          data: { id: "c" },
+          group: "nodes",
+        },
+        {
+          data: { id: "ab", source: "a", target: "b" },
+          group: "edges",
+        },
+      ],
+      style: [
+        {
+          selector: "node",
+          style: { "background-color": "#666", label: "data(id)" },
+        },
+        {
+          selector: "edge",
+          style: {
+            width: 3,
+            "line-color": "#ccc",
+            "target-arrow-color": "#ccc",
+            "target-arrow-shape": "triangle",
+          },
+        },
+      ],
+      layout: { name: "circle", rows: 1 },
+    },
+  }),
+  mounted() {
+    document.getElementById("cytoscape-div").style.minHeight = "100vh";
+    document.getElementById("cytoscape-div").style.height = "100%";
   },
 };
 </script>
