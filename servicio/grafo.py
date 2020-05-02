@@ -164,13 +164,69 @@ class Grafo(object):
     def euler(self):
         a=0
         if(self.conexa):
-            
             while a <len(self.grados):
                 if(self.grados[a]%2!=0):
-                    return False
+                        b=a+1
+                        while b <len(self.grados):
+                                if(self.grados[b]%2!=0):
+                                        c=b+1
+                                        while c <len(self.grados):
+                                                if(self.grados[c]%2!=0):
+                                                        return False
+                                                c = c+1
+                                        return True
+                                b = b+1
+                        return False
                 a = a+1
-            return True  
+                return True
         return False
+
+    @property
+    def caminoE(self):
+         a=0
+         b=0
+         c=0
+         d=0
+         e=0
+         if(self.euler):
+             aristas=[]
+             v_actual=self.vertices[0]
+             v_camino=[]
+             a_recorridas=[]
+             while a <len(self.obtener_aristas):
+                 aristas.append((self.obtener_aristas[a][0],self.obtener_aristas[a][1]))
+                 a=a+1
+             while b < len(aristas):
+                if v_actual == aristas[b][0] :
+                        v_camino.append(v_actual)
+                        v_actual=aristas[b][1]
+                        a_recorridas.append(aristas[b])
+                b=b+1
+             if len(a_recorridas) != len(aristas):
+                     while c <len(aristas):
+                        if v_actual == aristas[c][1] :
+                                v_camino.append(v_actual)
+                                v_actual=aristas[c][0]
+                                a_recorridas.append(aristas[c])
+                        c=c+1
+             if len(a_recorridas) != len(aristas):
+                     while d <len(aristas):
+                        if v_actual == aristas[d][0] and aristas[d] not in a_recorridas:
+                                v_camino.append(v_actual)
+                                v_actual=aristas[d][1]
+                                a_recorridas.append(aristas[d])
+                        d=d+1
+             if len(a_recorridas) != len(aristas):
+                     while e <len(aristas):
+                        if v_actual == aristas[e][1] and aristas[e] not in a_recorridas:
+                                v_camino.append(v_actual)
+                                v_actual=aristas[e][0]
+                                a_recorridas.append(aristas[e])
+                        e=e+1
+             v_camino.append(v_actual)
+             return v_camino
+         return "No hay camino euleriano"
+        
 
 
     def __str__(self):
