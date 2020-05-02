@@ -2,11 +2,11 @@ from collections import deque, namedtuple,OrderedDict
 import numpy as np
 
 def buscar_id(L,a):
-        b=0
-        for i in L:   
-            if(i==a):
-                return b
-            b+=1
+    b=0
+    for i in L:   
+        if(i==a):
+            return b
+        b+=1
 
 Arista = namedtuple('Arista', 'inicio, final, peso')
 
@@ -16,6 +16,12 @@ class Grafo(object):
 
     def generar_arista(self, inicio, final, peso=1):
         return Arista(inicio, final, peso)
+
+    def peso_arista(self, inicio, final):
+        for arista in self.aristas:
+            if arista.inicio == inicio and arista.final == final:
+                return arista.peso
+        return 0
 
     @property
     def vertices(self):
@@ -31,12 +37,6 @@ class Grafo(object):
             tupla = (arista.inicio, arista.final, arista.peso)
             respuesta.append(tupla)
         return respuesta
-
-    def peso_arista(self, inicio, final):
-        for arista in self.aristas:
-            if arista.inicio == inicio and arista.final == final:
-                return arista.peso
-        return 0
 
     @property
     def vecinos(self):
@@ -166,17 +166,17 @@ class Grafo(object):
         if(self.conexa):
             while a <len(self.grados):
                 if(self.grados[a]%2!=0):
-                        b=a+1
-                        while b <len(self.grados):
-                                if(self.grados[b]%2!=0):
-                                        c=b+1
-                                        while c <len(self.grados):
-                                                if(self.grados[c]%2!=0):
-                                                        return False
-                                                c = c+1
-                                        return True
-                                b = b+1
-                        return False
+                    b=a+1
+                    while b <len(self.grados):
+                        if(self.grados[b]%2!=0):
+                            c=b+1
+                            while c <len(self.grados):
+                                if(self.grados[c]%2!=0):
+                                        return False
+                                c = c+1
+                            return True
+                        b = b+1
+                    return False
                 a = a+1
                 return True
         return False
@@ -226,8 +226,6 @@ class Grafo(object):
              v_camino.append(v_actual)
              return v_camino
          return "No hay camino euleriano"
-        
-
-
+    
     def __str__(self):
         return "Vertices: "+ str(self.vertices) + "\nAristas: " + str(self.obtener_aristas)
