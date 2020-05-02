@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="columns" style="padding: 20px;">
-      <div class="column is-6" style="padding: 20px;">
+      <div class="column" style="padding: 20px;">
         <aristas-input />
       </div>
-      <div class="column is-6 is-paddingless" style="border: 1px solid grey;">
+      <!--<div class="column is-6 is-paddingless" style="border: 1px solid grey;">
         <cytoscape ref="cy" :config="config">
           <cy-element
             v-for="def in elements"
@@ -12,7 +12,7 @@
             :definition="def"
           />
         </cytoscape>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>

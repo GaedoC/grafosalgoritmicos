@@ -6,12 +6,10 @@
       v-for="(etiqueta, i) in etiquetas"
       :key="i"
     >
-      <div class="column">
+      <b-field grouped>
         <b-field :label="'Etiqueta nodo ' + (i + 1)">
           <b-input v-model="etiquetas[i]" placeholder="" rounded></b-input>
         </b-field>
-      </div>
-      <div class="column is-narrow">
         <b-tooltip
           v-if="etiquetas.length > 1"
           label="Eliminar"
@@ -25,7 +23,7 @@
         <div v-else class="navbar-item">
           <b-icon pack="fa" icon="minus-circle" style="color: grey;"></b-icon>
         </div>
-      </div>
+      </b-field>
     </div>
     <div
       class="columns is-marginless is-paddingless"
