@@ -2,7 +2,7 @@
   <div>
     <div class="columns" style="padding: 20px;">
       <div class="column is-6" style="padding: 20px;">
-        <aristas-input />
+        <stepper-data />
       </div>
       <div class="column is-6 is-paddingless" style="border: 1px solid grey;">
         <cytoscape ref="cy" :config="config">
@@ -18,12 +18,12 @@
 </template>
 
 <script>
-import AristasInput from "../components/AristasInput.vue";
+import StepperData from "../components/StepperData.vue";
 
 export default {
   name: "Main",
   components: {
-    AristasInput,
+    StepperData
   },
   data: () => ({
     config: {
