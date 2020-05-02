@@ -8,6 +8,36 @@ def buscar_id(L,a):
             return b
         b+=1
 
+def sort(L):
+    A=L
+    n = len(A)
+    for i in range(1, n):
+        for j in range(n-i):
+            if A[j][2] > A[j+1][2]:
+                A[j], A[j+1] = A[j+1], A[j]
+    return A
+
+parent = dict()
+rank = dict()
+
+def make_set(vertice):
+    parent[vertice] = vertice
+    rank[vertice] = 0
+def find(vertice):
+    if parent[vertice] != vertice:
+        parent[vertice] = find(parent[vertice])
+    return parent[vertice]
+def union(vertice1, vertice2):
+    root1 = find(vertice1)
+    root2 = find(vertice2)
+    if root1 != root2:
+        if rank[root1] > rank[root2]:
+            parent[root2] = root1
+        else:
+            parent[root1] = root2
+        if rank[root1] == rank[root2]:
+            rank[root2] += 1
+
 Arista = namedtuple('Arista', 'inicio, final, peso')
 
 class Grafo(object):
@@ -226,6 +256,18 @@ class Grafo(object):
              v_camino.append(v_actual)
              return v_camino
          return "No hay camino euleriano"
-    
+
+    def kruskal(self):
+        for vertice in self.vertices:
+            make_set(vertice)
+            ar_min=set()
+            Ar=sort(self.obtener_aristas)
+        for arista in Ar:
+            V1,V2,peso=arista
+            if(find(V1)!=find(V2)):
+                union(V1,V2)
+                ar_min.add(arista)
+        return sorted(ar_min)
+        
     def __str__(self):
         return "Vertices: "+ str(self.vertices) + "\nAristas: " + str(self.obtener_aristas)
