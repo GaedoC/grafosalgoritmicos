@@ -1,7 +1,7 @@
 <template>
   <div class="is-full-h" style="padding: 20px;">
     <div class="is-full-h columns is-marginless is-paddingless">
-      <div class="column is-6" style="overflow-y: scroll; padding-right: 20px">
+      <div class="column" style="padding-right: 20px">
         <b-field grouped v-for="(nodo, i) in nodos" :key="nodo.id">
           <b-field
             expanded
@@ -85,14 +85,6 @@ export default {
       });
     });
   },
-  watch: {
-    elementos() {
-      this.$nextTick(() => {
-        const cy = this.$refs.cy.instance;
-        this.afterCreated(cy);
-      });
-    }
-  },
   computed: {
     sonTodosValidos() {
       for (const nodo of this.nodos) {
@@ -102,22 +94,6 @@ export default {
       }
       return true;
     },
-    elementos() {
-      var nodos = [];
-      for (const nodo of this.nodos) {
-        if (nodo && nodo.etiqueta && nodo.etiqueta != "") {
-          nodos.push({
-            data: { id: nodo.etiqueta },
-            position: {
-              x: 1,
-              y: 1
-            },
-            group: "nodes"
-          });
-        }
-      }
-      return nodos;
-    }
   },
   methods: {
     agregarNodo() {
