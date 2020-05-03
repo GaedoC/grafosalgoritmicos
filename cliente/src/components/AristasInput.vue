@@ -1,77 +1,52 @@
 <template>
   <div class="is-full-h" style="padding: 20px;">
-    <div class="columns is-marginless is-paddingless is-full-h">
-      <div class="column is-6" style="overflow-y: scroll; padding-right: 20px">
-        <b-field grouped v-for="(origen, i) in origenes" :key="i">
-          <b-field expanded>
-            <b-select placeholder="Nodo de origen" v-model="origenes[i]">
-              <option v-for="nodo in nodos" :value="nodo" :key="nodo">
-                {{ nodo }}
-              </option>
-            </b-select>
-          </b-field>
-          <b-field expanded>
-            <b-select placeholder="Nodo de destino" v-model="destinos[i]">
-              <option v-for="nodo in nodos" :value="nodo" :key="nodo">
-                {{ nodo }}
-              </option>
-            </b-select>
-          </b-field>
-          <b-field>
-            <b-numberinput
-              controls-position="compact"
-              controls-rounded
-              expanded
-              style="width: 150px"
-              min="0"
-              v-model="pesos[i]"
-            >
-            </b-numberinput>
-          </b-field>
+    <b-field grouped v-for="(origen, i) in origenes" :key="i">
+      <b-field expanded>
+        <b-select placeholder="Nodo de origen" v-model="origenes[i]">
+          <option v-for="nodo in nodos" :value="nodo" :key="nodo">{{ nodo }}</option>
+        </b-select>
+      </b-field>
+      <b-field expanded>
+        <b-select placeholder="Nodo de destino" v-model="destinos[i]">
+          <option v-for="nodo in nodos" :value="nodo" :key="nodo">{{ nodo }}</option>
+        </b-select>
+      </b-field>
+      <b-field>
+        <b-numberinput
+          controls-position="compact"
+          controls-rounded
+          expanded
+          style="width: 150px"
+          min="0"
+          v-model="pesos[i]"
+        ></b-numberinput>
+      </b-field>
 
-          <b-tooltip
-            v-if="origenes.length > 1"
-            label="Eliminar"
-            class="is-danger"
-            position="is-left"
-            style="margin-top: -25px;"
-          >
-            <a @click="eliminarArista(i)" style="margin-top: 30px;"
-              ><b-icon pack="fa" class="is-danger" icon="minus-circle"></b-icon
-            ></a>
-          </b-tooltip>
-          <div v-else style="margin-top: 5px;">
-            <b-icon pack="fa" icon="minus-circle" style="color: grey;"></b-icon>
-          </div>
-        </b-field>
-        <div class="is-marginless is-paddingless">
-          <b-button
-            type="is-primary"
-            style=" margin: 12px;"
-            outlined
-            rounded
-            expanded
-            @click="agregarArista"
-            icon-left="plus-circle"
-            >Agregar arista</b-button
-          >
-        </div>
+      <b-tooltip
+        v-if="origenes.length > 1"
+        label="Eliminar"
+        class="is-danger"
+        position="is-left"
+        style="margin-top: -25px;"
+      >
+        <a @click="eliminarArista(i)" style="margin-top: 30px;">
+          <b-icon pack="fa" class="is-danger" icon="minus-circle"></b-icon>
+        </a>
+      </b-tooltip>
+      <div v-else style="margin-top: 5px;">
+        <b-icon pack="fa" icon="minus-circle" style="color: grey;"></b-icon>
       </div>
-      <div class="column is-6">
-        <cytoscape
-          ref="cy"
-          :config="config"
-          :afterCreated="afterCreated"
-          style="border-left: 2px solid #f5f5f5; height: 100%;"
-        >
-          <cy-element
-            v-for="def in elementos"
-            :key="`${def.data.id}`"
-            sync
-            :definition="def"
-          />
-        </cytoscape>
-      </div>
+    </b-field>
+    <div class="is-marginless is-paddingless">
+      <b-button
+        type="is-primary"
+        style=" margin: 12px;"
+        outlined
+        rounded
+        expanded
+        @click="agregarArista"
+        icon-left="plus-circle"
+      >Agregar arista</b-button>
     </div>
   </div>
 </template>
@@ -104,8 +79,8 @@ export default {
           selector: "node",
           style: {
             "background-color": "#7958d5",
-            label: "data(id)",
-          },
+            label: "data(id)"
+          }
         },
         {
           selector: "edge",
@@ -114,12 +89,12 @@ export default {
             "curve-style": "bezier",
             "line-color": "#ccc",
             "target-arrow-color": "#ccc",
-            "target-arrow-shape": "triangle",
-          },
-        },
+            "target-arrow-shape": "triangle"
+          }
+        }
       ],
-      layout: { name: "circle", row: 1 },
-    },
+      layout: { name: "circle", row: 1 }
+    }
   }),
   watch: {
     elementos() {
@@ -127,7 +102,7 @@ export default {
         const cy = this.$refs.cy.instance;
         this.afterCreated(cy);
       });
-    },
+    }
   },
   computed: {
     elementos() {
@@ -138,9 +113,9 @@ export default {
             data: { id: etiqueta },
             position: {
               x: 1,
-              y: 1,
+              y: 1
             },
-            group: "nodes",
+            group: "nodes"
           });
         }
       }
@@ -154,9 +129,9 @@ export default {
               id: origen + destino,
               source: origen,
               target: destino,
-              type: "loop",
+              type: "loop"
             },
-            group: "edges",
+            group: "edges"
           });
         }
       }
@@ -172,13 +147,13 @@ export default {
         aristas.push({
           inicio: origen,
           final: destino,
-          peso: peso,
+          peso: peso
         });
       }
       return {
-        grafo: aristas,
+        grafo: aristas
       };
-    },
+    }
   },
   methods: {
     agregarArista() {
@@ -201,7 +176,7 @@ export default {
     },
     getNodosFiltrados(valor) {
       if (valor != null) {
-        return this.nodos.filter((n) => {
+        return this.nodos.filter(n => {
           n.toString()
             .toLowerCase()
             .includes(valor.toString().toLowerCase);
@@ -212,7 +187,7 @@ export default {
     async afterCreated(cy) {
       await cy;
       cy.layout(this.config.layout).run();
-    },
-  },
+    }
+  }
 };
 </script>

@@ -1,58 +1,28 @@
 <template>
   <div class="is-full-h" style="padding: 20px;">
-    <div class="is-full-h columns is-marginless is-paddingless">
-      <div class="column is-6" style="overflow-y: scroll; padding-right: 20px">
-        <b-field grouped v-for="(etiqueta, i) in nodos" :key="i">
-          <b-field expanded>
-            <b-input v-model="nodos[i]" rounded></b-input>
-          </b-field>
-          <b-tooltip
-            v-if="nodos.length > 1"
-            label="Eliminar"
-            class="is-danger"
-            position="is-left"
-          >
-            <a @click="eliminarNodo(i)" style="margin-top: 5px;"
-              ><b-icon
-                pack="fa"
-                class="is-danger"
-                style="margin-top: 5px;"
-                icon="minus-circle"
-              ></b-icon
-            ></a>
-          </b-tooltip>
-          <div v-else style="margin-top: 5px;">
-            <b-icon pack="fa" icon="minus-circle" style="color: grey;"></b-icon>
-          </div>
-        </b-field>
-        <b-button
-          class="is-marginless"
-          type="is-primary"
-          style=" margin: 12px;"
-          outlined
-          rounded
-          expanded
-          @click="agregarNodo"
-          icon-left="plus-circle"
-          >Agregar nodo</b-button
-        >
+    <b-field grouped v-for="(etiqueta, i) in nodos" :key="i">
+      <b-field expanded>
+        <b-input v-model="nodos[i]" rounded></b-input>
+      </b-field>
+      <b-tooltip v-if="nodos.length > 1" label="Eliminar" class="is-danger" position="is-left">
+        <a @click="eliminarNodo(i)" style="margin-top: 5px;">
+          <b-icon pack="fa" class="is-danger" style="margin-top: 5px;" icon="minus-circle"></b-icon>
+        </a>
+      </b-tooltip>
+      <div v-else style="margin-top: 5px;">
+        <b-icon pack="fa" icon="minus-circle" style="color: grey;"></b-icon>
       </div>
-      <div class="column is-6">
-        <cytoscape
-          ref="cy"
-          :config="config"
-          :afterCreated="afterCreated"
-          style="border-left: 2px solid #f5f5f5; height: 100%;"
-        >
-          <cy-element
-            v-for="def in elementos"
-            :key="`${def.data.id}`"
-            sync
-            :definition="def"
-          />
-        </cytoscape>
-      </div>
-    </div>
+    </b-field>
+    <b-button
+      class="is-marginless"
+      type="is-primary"
+      style=" margin: 12px;"
+      outlined
+      rounded
+      expanded
+      @click="agregarNodo"
+      icon-left="plus-circle"
+    >Agregar nodo</b-button>
   </div>
 </template>
 
@@ -83,12 +53,12 @@ export default {
           selector: "node",
           style: {
             "background-color": "#7958d5",
-            label: "data(id)",
-          },
-        },
+            label: "data(id)"
+          }
+        }
       ],
-      layout: { name: "grid", rows: 3 },
-    },
+      layout: { name: "grid", rows: 3 }
+    }
   }),
   watch: {
     elementos() {
@@ -96,7 +66,7 @@ export default {
         const cy = this.$refs.cy.instance;
         this.afterCreated(cy);
       });
-    },
+    }
   },
   computed: {
     elementos() {
@@ -107,14 +77,14 @@ export default {
             data: { id: etiqueta },
             position: {
               x: 1,
-              y: 1,
+              y: 1
             },
-            group: "nodes",
+            group: "nodes"
           });
         }
       }
       return nodos;
-    },
+    }
   },
   methods: {
     agregarNodo() {
@@ -129,7 +99,7 @@ export default {
     async afterCreated(cy) {
       await cy;
       cy.layout(this.config.layout).run();
-    },
-  },
+    }
+  }
 };
 </script>

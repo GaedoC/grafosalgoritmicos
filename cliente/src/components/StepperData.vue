@@ -1,5 +1,6 @@
 <template>
   <section class="is-full-h">
+      <button class="button is-rounded is-primary is-outlined" @click="volver"><b-icon :icon="prevIcon"></b-icon></button>
     <b-steps
       size="is-small"
       class="is-full-h"
@@ -56,6 +57,7 @@ import NodosInput from "./NodosInput.vue";
 
 export default {
   name: "StepperData",
+  props:["volver", "nodos"],
   components: {
     AristasInput,
     NodosInput,
@@ -65,7 +67,6 @@ export default {
       pasoActual: 0,
       prevIcon: "chevron-left",
       nextIcon: "chevron-right",
-      nodos: ["A"],
     };
   },
 };
