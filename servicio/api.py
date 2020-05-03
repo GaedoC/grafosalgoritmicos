@@ -1,7 +1,8 @@
 from flask import Flask, request, jsonify
-from servicios import matriz, caminoMasCorto, camino, flujo, arbol
+from servicios import matriz, camino_mas_corto, camino, flujo, arbol
 
 application = Flask(__name__)
+
 
 @application.route('/', methods=['GET'])
 def conectar():
@@ -9,7 +10,7 @@ def conectar():
 
 # a. Mostrar matriz de caminos e indicar si el grafo es o no conexo
 @application.route('/matriz', methods=['POST'])
-def matrizConexo():
+def matriz_conexo():
     content = request.get_json(silent=True)
     return matriz(content)
 
@@ -17,7 +18,7 @@ def matrizConexo():
 @application.route('/dijkstra', methods=['POST'])
 def dijkstra():
     content = request.get_json(silent=True)
-    return caminoMasCorto(content, content['inicio'], content['final'])
+    return camino_mas_corto(content)
 
 # c. Indicar si es hamiltoniano y/o euleriano, y su camino respectivo
 @application.route('/camino', methods=['POST'])
@@ -36,6 +37,7 @@ def flujoMax():
 def arbolGen():
     content = request.get_json(silent=True)
     return arbol(content)
+
 
 if __name__ == '__main__':
     application.run(debug=True, host='localhost', port=5151)
