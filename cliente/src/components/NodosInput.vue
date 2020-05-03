@@ -37,23 +37,7 @@
           expanded
           @click="agregarNodo"
           icon-left="plus-circle"
-          >Agregar nodo</b-button
-        >
-      </div>
-      <div class="column is-6">
-        <cytoscape
-          ref="cy"
-          :config="config"
-          :afterCreated="afterCreated"
-          style="border-left: 2px solid #f5f5f5; height: 100%;"
-        >
-          <cy-element
-            v-for="def in elementos"
-            :key="`${def.data.id}`"
-            sync
-            :definition="def"
-          />
-        </cytoscape>
+          >Agregar nodo</b-button>
       </div>
     </div>
   </div>
@@ -86,12 +70,12 @@ export default {
           selector: "node",
           style: {
             "background-color": "#7958d5",
-            label: "data(id)",
-          },
-        },
+            label: "data(id)"
+          }
+        }
       ],
-      layout: { name: "grid", rows: 3 },
-    },
+      layout: { name: "grid", rows: 3 }
+    }
   }),
   mounted() {
     this.$nextTick(() => {
@@ -107,7 +91,7 @@ export default {
         const cy = this.$refs.cy.instance;
         this.afterCreated(cy);
       });
-    },
+    }
   },
   computed: {
     sonTodosValidos() {
@@ -126,14 +110,14 @@ export default {
             data: { id: nodo.etiqueta },
             position: {
               x: 1,
-              y: 1,
+              y: 1
             },
-            group: "nodes",
+            group: "nodes"
           });
         }
       }
       return nodos;
-    },
+    }
   },
   methods: {
     agregarNodo() {
@@ -165,7 +149,7 @@ export default {
     async afterCreated(cy) {
       await cy;
       cy.layout(this.config.layout).run();
-    },
-  },
+    }
+  }
 };
 </script>
