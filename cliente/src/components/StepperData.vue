@@ -28,8 +28,52 @@
         :clickable="false"
         :type="{ 'is-success': false }"
       >
-        <aristas-input :nodos="nodos" />
+        <aristas-input
+          :nodos="nodos"
+          :origenes="origenes"
+          :destinos="destinos"
+          :pesos="pesos"
+        />
       </b-step-item>
+      <template slot="navigation" slot-scope="{ previous, next }">
+        <div
+          style="padding: 10px 20px; display: flex; justify-content: space-between; align-items: center;"
+        >
+          <b-button
+            outlined
+            rounded
+            type="is-primary"
+            icon-pack="fas"
+            icon-left="backward"
+            :disabled="previous.disabled"
+            @click.prevent="previous.action"
+          >
+            Atrás
+          </b-button>
+          <b-button
+            v-if="pasoActual != 1"
+            outlined
+            rounded
+            type="is-primary"
+            icon-pack="fas"
+            icon-right="forward"
+            :disabled="next.disabled || (pasoActual == 0 && !sonNodosValidos)"
+            @click.prevent="next.action"
+          >
+            Siguiente
+          </b-button>
+          <b-button
+            v-else
+            rounded
+            type="is-primary"
+            icon-pack="fas"
+            icon-right="forward"
+            @click="onFinalizar"
+          >
+            Finalizar
+          </b-button>
+        </div>
+      </template>
     </b-steps>
   </section>
 </template>
@@ -65,8 +109,54 @@ export default {
       pasoActual: 0,
       prevIcon: "chevron-left",
       nextIcon: "chevron-right",
-      nodos: ["A"],
+      nodos: [],
+      origenes: [],
+      destinos: [],
+      pesos: [],
     };
+  },
+  computed: {
+    sonNodosValidos() {
+      if (!this.nodos || !this.nodos.length) {
+        return false;
+      }
+
+      for (const nodo of this.nodos) {
+        if (!nodo.etiqueta || nodo.etiqueta == "") {
+          return false;
+        } else {
+          if (
+            this.nodos.filter((n) => n.etiqueta == nodo.etiqueta).length > 1
+          ) {
+            return false;
+          }
+        }
+      }
+
+      return true;
+    },
+    grafo() {
+      var aristas = [];
+      for (let i = 0; i < this.origenes.length; i++) {
+        const origen = this.origenes[i];
+        const destino = this.destinos[i];
+        const peso = this.pesos[i];
+
+        aristas.push({
+          inicio: origen,
+          final: destino,
+          peso: peso,
+        });
+      }
+      return {
+        grafo: aristas,
+      };
+    },
+  },
+  methods: {
+    onFinalizar() {
+      console.log(this.grafo);
+    },
   },
 };
 </script>

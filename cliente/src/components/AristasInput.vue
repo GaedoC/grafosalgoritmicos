@@ -2,54 +2,82 @@
   <div class="is-full-h" style="padding: 20px;">
     <div class="columns is-marginless is-paddingless is-full-h">
       <div class="column is-6" style="overflow-y: scroll; padding-right: 20px">
-        <b-field grouped v-for="(origen, i) in origenes" :key="i">
-          <b-field expanded>
-            <b-select placeholder="Nodo de origen" v-model="origenes[i]">
-              <option v-for="nodo in nodos" :value="nodo" :key="nodo">
-                {{ nodo }}
-              </option>
-            </b-select>
-          </b-field>
-          <b-field expanded>
-            <b-select placeholder="Nodo de destino" v-model="destinos[i]">
-              <option v-for="nodo in nodos" :value="nodo" :key="nodo">
-                {{ nodo }}
-              </option>
-            </b-select>
-          </b-field>
-          <b-field>
-            <b-numberinput
-              controls-position="compact"
-              controls-rounded
-              expanded
-              style="width: 150px"
-              min="0"
-              v-model="pesos[i]"
+        <b-field
+          v-for="(origen, i) in origenes"
+          :key="i"
+          :type="validarArista(i) != null ? 'is-danger' : ''"
+          :message="validarArista(i)"
+        >
+          <b-field grouped class="is-marginless">
+            <b-field expanded style="margin-bottom: -12px;">
+              <b-autocomplete
+                rounded
+                v-model="origenes[i]"
+                :data="nodos"
+                keep-first
+                open-on-focus
+                field="etiqueta"
+                placeholder="Nodo de origen"
+                clearable
+              >
+                <template slot="empty">Sin resultados</template>
+              </b-autocomplete>
+            </b-field>
+            <b-field expanded style="margin-bottom: -12px;">
+              <b-autocomplete
+                rounded
+                v-model="destinos[i]"
+                :data="nodos"
+                keep-first
+                open-on-focus
+                field="etiqueta"
+                placeholder="Nodo de destino"
+                clearable
+              >
+                <template slot="empty">Sin resultados</template>
+              </b-autocomplete></b-field
             >
-            </b-numberinput>
-          </b-field>
+            <b-field expanded style="margin-bottom: -12px;">
+              <b-numberinput
+                controls-position="compact"
+                controls-rounded
+                style="max-width: 200px"
+                min="0"
+                v-model="pesos[i]"
+              >
+              </b-numberinput>
+            </b-field>
 
-          <b-tooltip
-            v-if="origenes.length > 1"
-            label="Eliminar"
-            class="is-danger"
-            position="is-left"
-            style="margin-top: -25px;"
-          >
-            <a @click="eliminarArista(i)" style="margin-top: 30px;"
-              ><b-icon pack="fa" class="is-danger" icon="minus-circle"></b-icon
-            ></a>
-          </b-tooltip>
-          <div v-else style="margin-top: 5px;">
-            <b-icon pack="fa" icon="minus-circle" style="color: grey;"></b-icon>
-          </div>
+            <b-tooltip
+              v-if="origenes.length > 1"
+              label="Eliminar"
+              class="is-danger"
+              position="is-left"
+              style="margin-top: -25px;"
+            >
+              <a @click="eliminarArista(i)" style="margin-top: 30px;"
+                ><b-icon
+                  pack="fa"
+                  class="is-danger"
+                  icon="minus-circle"
+                ></b-icon
+              ></a>
+            </b-tooltip>
+            <div v-else style="margin-top: 5px;">
+              <b-icon
+                pack="fa"
+                icon="minus-circle"
+                style="color: grey;"
+              ></b-icon>
+            </div>
+          </b-field>
         </b-field>
         <div class="is-marginless is-paddingless">
           <b-button
             type="is-primary"
-            style=" margin: 12px;"
             outlined
             rounded
+            :disabled="!sonTodosValidos"
             expanded
             @click="agregarArista"
             icon-left="plus-circle"
@@ -71,6 +99,14 @@
             :definition="def"
           />
         </cytoscape>
+        <!--<katex-element
+          :expression="
+            matrizToKaTexMatrix([
+              [1, 2, 3, 4, 5],
+              [3, 4, 5, 6, 7],
+            ])
+          "
+        />-->
       </div>
     </div>
   </div>
@@ -93,11 +129,8 @@
 <script>
 export default {
   name: "AristasInput",
-  props: ["nodos"],
+  props: ["nodos", "origenes", "destinos", "pesos"],
   data: () => ({
-    origenes: [null],
-    destinos: [null],
-    pesos: [0],
     config: {
       style: [
         {
@@ -121,6 +154,15 @@ export default {
       layout: { name: "circle", row: 1 },
     },
   }),
+  mounted() {
+    this.origenes.push(null);
+    this.destinos.push(null);
+    this.pesos.push(0);
+    this.$nextTick(() => {
+      const cy = this.$refs.cy.instance;
+      this.afterCreated(cy);
+    });
+  },
   watch: {
     elementos() {
       this.$nextTick(() => {
@@ -130,12 +172,20 @@ export default {
     },
   },
   computed: {
+    sonTodosValidos() {
+      for (let i = 0; i < this.origenes.length; i++) {
+        if (this.validarArista(i).length) {
+          return false;
+        }
+      }
+      return true;
+    },
     elementos() {
       var elementos = [];
-      for (const etiqueta of this.nodos) {
-        if (etiqueta && etiqueta != "") {
+      for (const nodo of this.nodos) {
+        if (nodo && nodo.etiqueta && nodo.etiqueta != "") {
           elementos.push({
-            data: { id: etiqueta },
+            data: { id: nodo.etiqueta },
             position: {
               x: 1,
               y: 1,
@@ -162,23 +212,6 @@ export default {
       }
       return elementos;
     },
-    grafo() {
-      var aristas = [];
-      for (let i = 0; i < this.origenes.length; i++) {
-        const origen = this.origenes[i];
-        const destino = this.destinos[i];
-        const peso = this.pesos[i];
-
-        aristas.push({
-          inicio: origen,
-          final: destino,
-          peso: peso,
-        });
-      }
-      return {
-        grafo: aristas,
-      };
-    },
   },
   methods: {
     agregarArista() {
@@ -191,13 +224,49 @@ export default {
       this.destinos.splice(i, 1);
       this.pesos.splice(i, 1);
     },
-    validarNodo(valor) {
-      if (valor != null) {
-        if (this.nodos.indexOf(valor) < 0) {
-          return "Debe seleccionar un nodo válido";
-        }
+    validarArista(i) {
+      const origen = this.origenes[i];
+      const destino = this.destinos[i];
+      const peso = this.pesos[i];
+
+      var errores = [];
+
+      if (!origen || origen == "") {
+        errores.push("Debe seleccion un nodo de origen");
+      } else if (!this.nodos.filter((n) => n.etiqueta == origen).length) {
+        errores.push("Debe seleccion un nodo de origen válido");
       }
-      return null;
+
+      if (!destino || destino == "") {
+        errores.push("Debe seleccion un nodo de destino");
+      } else if (!this.nodos.filter((n) => n.etiqueta == destino).length) {
+        errores.push("Debe seleccion un nodo de destino válido");
+      }
+
+      if (peso == null || peso < 0) {
+        errores.push("Debe ingresar un peso válido");
+      }
+      return errores;
+    },
+    matrizToKaTexMatrix(matriz) {
+      var exp = String.raw`\begin{pmatrix}`;
+      var esPrimeraFila = true;
+      for (const fila of matriz) {
+        var esPrimerElemento = true;
+        if (!esPrimeraFila) {
+          exp += String.raw`\\`;
+        }
+        for (const elemento of fila) {
+          if (!esPrimerElemento) {
+            exp += String.raw` & `;
+          }
+          exp += elemento.toString();
+          esPrimerElemento = false;
+        }
+        esPrimeraFila = false;
+      }
+      exp += String.raw`\end{pmatrix}`;
+      return exp;
     },
     getNodosFiltrados(valor) {
       if (valor != null) {
