@@ -3,31 +3,33 @@ from grafo import Grafo
 
 
 def parsearGrafo(grafo):
-    grafoParseado = []
-    for nodo in grafo:
-        tupla = (nodo["inicio"], nodo["final"], nodo["peso"])
-        grafoParseado.append(tupla)
-    return Grafo(grafoParseado)
+    aristasParseadas = []
+    for arista in grafo['aristas']:
+        tupla = (arista["inicio"], arista["final"], arista["peso"])
+        aristasParseadas.append(tupla)
+    return Grafo(aristasParseadas, grafo['vertices'])
 
 
-def matriz(grafo):
-    grafo = parsearGrafo(grafo)
+def matriz(json):
+    grafo = parsearGrafo(json)
     return jsonify(matriz=grafo.matriz, conexo=grafo.conexa)
+
 
 def caminoMasCorto(grafo, inicio, final):
     grafo = parsearGrafo(grafo)
     dijkstra = grafo.dijkstra(inicio, final)
     return jsonify(ruta=dijkstra[0], duración=dijkstra[1])
 
+
 def camino(grafo):
     resultado = []
     grafo = parsearGrafo(grafo)
-    resultado.append({ "hamiltoniano": grafo.hamilton })
+    resultado.append({"hamiltoniano": grafo.hamilton})
     if (grafo.hamilton):
-        resultado.append({ "caminoHamiltoniano": grafo.caminoH })
-    resultado.append({ "euleriano": grafo.euler })
+        resultado.append({"caminoHamiltoniano": grafo.caminoH})
+    resultado.append({"euleriano": grafo.euler})
     if (grafo.euler):
-        resultado.append({ "caminoEuleriano": grafo.caminoE })
+        resultado.append({"caminoEuleriano": grafo.caminoE})
     return jsonify(resultado)
 
 
