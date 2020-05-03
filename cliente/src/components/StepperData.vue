@@ -26,7 +26,6 @@
         label="Aristas"
         style="border-bottom: 2px solid #f5f5f5; border-top: 2px solid #f5f5f5;"
         :clickable="false"
-        :type="{ 'is-success': false }"
       >
         <aristas-input
           :nodos="nodos"
