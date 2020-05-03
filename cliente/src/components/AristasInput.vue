@@ -1,28 +1,23 @@
 <template>
-  <div>
-    <div class="columns is-marginless is-paddingless">
-      <div class="column is-6">
-        <b-field
-          grouped
-          v-for="(origen, i) in origenes"
-          :key="i"
-          class="columns"
-        >
-          <b-field class="column" :label="'Peso ' + (i + 1)">
-            <b-select placeholder="Nodo de origen">
+  <div class="is-full-h">
+    <div class="columns is-marginless is-paddingless is-full-h">
+      <div class="column is-6" style="overflow-y: scroll; padding-right: 20px">
+        <b-field grouped v-for="(origen, i) in origenes" :key="i">
+          <b-field expanded>
+            <b-select placeholder="Nodo de origen" v-model="origenes[i]">
               <option v-for="nodo in nodos" :value="nodo" :key="nodo">
                 {{ nodo }}
               </option>
             </b-select>
           </b-field>
-          <b-field class="column" :label="'Peso ' + (i + 1)">
-            <b-select placeholder="Nodo de origen">
+          <b-field expanded>
+            <b-select placeholder="Nodo de destino" v-model="destinos[i]">
               <option v-for="nodo in nodos" :value="nodo" :key="nodo">
                 {{ nodo }}
               </option>
             </b-select>
           </b-field>
-          <b-field :label="'Peso ' + (i + 1)" class="column">
+          <b-field>
             <b-numberinput
               controls-position="compact"
               controls-rounded
@@ -39,13 +34,13 @@
             label="Eliminar"
             class="is-danger"
             position="is-right"
-            style="margin-top: 20px;"
+            style="margin-top: 5px;"
           >
-            <a class="navbar-item control" @click="eliminarArista(i)"
+            <a @click="eliminarArista(i)"
               ><b-icon pack="fa" class="is-danger" icon="minus-circle"></b-icon
             ></a>
           </b-tooltip>
-          <div v-else class="navbar-item control" style="margin-top: 20px;">
+          <div v-else style="margin-top: 5px;">
             <b-icon pack="fa" icon="minus-circle" style="color: grey;"></b-icon>
           </div>
         </b-field>
@@ -63,24 +58,112 @@
         </div>
       </div>
       <div class="column is-6">
-        <pre>
-          <code class="language-javascript">{{ grafo }}</code>
-        </pre>
+        <cytoscape
+          ref="cy"
+          :config="config"
+          :afterCreated="afterCreated"
+          style="border: 1px solid grey; height: 100%;"
+        >
+          <cy-element
+            v-for="def in elementos"
+            :key="`${def.data.id}`"
+            sync
+            :definition="def"
+          />
+        </cytoscape>
       </div>
     </div>
   </div>
 </template>
 
+<style>
+#cytoscape-div {
+  min-height: 100px;
+  height: 100%;
+}
+
+#cytoscape-div,
+#cytoscape-div > div,
+#cytoscape-div > div > canvas {
+  min-height: 100px !important;
+  height: 100% !important;
+}
+</style>
+
 <script>
 export default {
   name: "AristasInput",
+  props: ["nodos"],
   data: () => ({
-    nodos: ["A", "B", "C", "D"],
     origenes: [null],
     destinos: [null],
     pesos: [0],
+    config: {
+      style: [
+        {
+          selector: "node",
+          style: {
+            "background-color": "#7958d5",
+            label: "data(id)",
+          },
+        },
+        {
+          selector: "edge",
+          style: {
+            width: 3,
+            "curve-style": "bezier",
+            "line-color": "#ccc",
+            "target-arrow-color": "#ccc",
+            "target-arrow-shape": "triangle",
+          },
+        },
+      ],
+      layout: { name: "circle", row: 1 },
+    },
   }),
+  watch: {
+    elementos() {
+      this.$nextTick(() => {
+        const cy = this.$refs.cy.instance;
+        this.afterCreated(cy);
+      });
+    },
+  },
   computed: {
+    elementos() {
+      var elementos = [];
+      for (const etiqueta of this.nodos) {
+        if (etiqueta && etiqueta != "") {
+          elementos.push({
+            data: { id: etiqueta },
+            position: {
+              x: 1,
+              y: 1,
+            },
+            group: "nodes",
+          });
+        }
+      }
+
+      for (let i = 0; i < this.origenes.length; i++) {
+        const origen = this.origenes[i];
+        const destino = this.destinos[i];
+        console.log("awa", origen, this.destinos);
+        if (origen && destino) {
+          elementos.push({
+            data: {
+              id: origen + destino,
+              source: origen,
+              target: destino,
+              type: "loop",
+            },
+            group: "edges",
+          });
+        }
+      }
+      console.log(elementos);
+      return elementos;
+    },
     grafo() {
       var aristas = [];
       for (let i = 0; i < this.origenes.length; i++) {
@@ -127,6 +210,10 @@ export default {
         });
       }
       return this.nodos;
+    },
+    async afterCreated(cy) {
+      await cy;
+      cy.layout(this.config.layout).run();
     },
   },
 };

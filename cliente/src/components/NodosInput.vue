@@ -2,12 +2,12 @@
   <div class="is-full-h">
     <div class="is-full-h columns is-marginless is-paddingless">
       <div class="column is-6" style="overflow-y: scroll; padding-right: 20px">
-        <b-field grouped v-for="(etiqueta, i) in etiquetas" :key="i">
+        <b-field grouped v-for="(etiqueta, i) in nodos" :key="i">
           <b-field expanded>
-            <b-input v-model="etiquetas[i]" rounded></b-input>
+            <b-input v-model="nodos[i]" rounded></b-input>
           </b-field>
           <b-tooltip
-            v-if="etiquetas.length > 1"
+            v-if="nodos.length > 1"
             label="Eliminar"
             class="is-danger"
             position="is-left"
@@ -73,8 +73,8 @@
 <script>
 export default {
   name: "NodosInput",
+  props: ["nodos"],
   data: () => ({
-    etiquetas: ["A"],
     indiceMaximo: 1,
     cy: null,
     config: {
@@ -84,15 +84,6 @@ export default {
           style: {
             "background-color": "#7958d5",
             label: "data(id)",
-          },
-        },
-        {
-          selector: "edge",
-          style: {
-            width: 3,
-            "line-color": "#ccc",
-            "target-arrow-color": "#ccc",
-            "target-arrow-shape": "triangle",
           },
         },
       ],
@@ -110,7 +101,7 @@ export default {
   computed: {
     elementos() {
       var nodos = [];
-      for (const etiqueta of this.etiquetas) {
+      for (const etiqueta of this.nodos) {
         if (etiqueta && etiqueta != "") {
           nodos.push({
             data: { id: etiqueta },
@@ -130,10 +121,10 @@ export default {
       this.indiceMaximo++;
       var valorAsciiA = 65;
       var caracter = String.fromCharCode(valorAsciiA + this.indiceMaximo);
-      this.etiquetas.push(caracter);
+      this.nodos.push(caracter);
     },
     eliminarNodo(i) {
-      this.etiquetas.splice(i, 1);
+      this.nodos.splice(i, 1);
     },
     async afterCreated(cy) {
       await cy;

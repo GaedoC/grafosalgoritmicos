@@ -10,7 +10,7 @@
       :icon-next="nextIcon"
     >
       <b-step-item step="1" label="Nodos" :clickable="false" class="is-full-h">
-        <nodos-input />
+        <nodos-input :nodos="nodos" />
       </b-step-item>
 
       <b-step-item
@@ -20,7 +20,7 @@
         :clickable="false"
         :type="{ 'is-success': false }"
       >
-        <aristas-input />
+        <aristas-input :nodos="nodos" />
       </b-step-item>
     </b-steps>
   </section>
@@ -47,6 +47,7 @@ export default {
       pasoActual: 0,
       prevIcon: "chevron-left",
       nextIcon: "chevron-right",
+      nodos: ["A"],
     };
   },
 };
