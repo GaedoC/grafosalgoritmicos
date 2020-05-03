@@ -269,6 +269,7 @@ class Grafo(object):
             return v_camino
         return "No hay camino euleriano"
 
+    @property
     def kruskal(self):
         for vertice in self.vertices:
             make_set(vertice)
