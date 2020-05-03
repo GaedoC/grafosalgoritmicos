@@ -128,7 +128,6 @@ class Grafo(object):
             i = buscar_id(self.vertices, self.aristas[a][0])
             j = buscar_id(self.vertices, self.aristas[a][1])
             mat[i][j] = self.aristas[a][2]
-            mat[j][i] = self.aristas[a][2]
             a += 1
         return mat.tolist()
 
