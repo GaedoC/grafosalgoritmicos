@@ -4,7 +4,7 @@
       class="card"
       style="width: 100%; height: calc(100vh - 80px); border-radius: 20px;"
     >
-      <div class="card-content is-full-h">
+      <div class="card-content is-full-h is-paddingless">
         <div class="content is-full-h">
           <stepper-data />
         </div>

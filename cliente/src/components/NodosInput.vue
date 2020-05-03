@@ -1,5 +1,5 @@
 <template>
-  <div class="is-full-h">
+  <div class="is-full-h" style="padding: 20px;">
     <div class="is-full-h columns is-marginless is-paddingless">
       <div class="column is-6" style="overflow-y: scroll; padding-right: 20px">
         <b-field grouped v-for="(etiqueta, i) in nodos" :key="i">
@@ -42,7 +42,7 @@
           ref="cy"
           :config="config"
           :afterCreated="afterCreated"
-          style="border: 1px solid grey; height: 100%;"
+          style="border-left: 2px solid #f5f5f5; height: 100%;"
         >
           <cy-element
             v-for="def in elementos"

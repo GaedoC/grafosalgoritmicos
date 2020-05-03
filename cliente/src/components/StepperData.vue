@@ -1,6 +1,7 @@
 <template>
   <section class="is-full-h">
     <b-steps
+      size="is-small"
       class="is-full-h"
       v-model="pasoActual"
       :animated="true"
@@ -9,7 +10,13 @@
       :icon-prev="prevIcon"
       :icon-next="nextIcon"
     >
-      <b-step-item step="1" label="Nodos" :clickable="false" class="is-full-h">
+      <b-step-item
+        step="1"
+        label="Nodos"
+        :clickable="false"
+        class="is-full-h"
+        style="border-bottom: 2px solid #f5f5f5; border-top: 2px solid #f5f5f5;"
+      >
         <nodos-input :nodos="nodos" />
       </b-step-item>
 
@@ -17,6 +24,7 @@
         step="2"
         class="is-full-h"
         label="Aristas"
+        style="border-bottom: 2px solid #f5f5f5; border-top: 2px solid #f5f5f5;"
         :clickable="false"
         :type="{ 'is-success': false }"
       >
@@ -27,8 +35,18 @@
 </template>
 
 <style>
+.b-steps .steps,
+.b-steps .step-navigation {
+  padding: 10px;
+}
+
+.b-steps .step-navigation {
+  padding-left: 20px;
+  padding-right: 20px;
+}
 .step-content {
-  height: calc(100% - 104px);
+  padding: 0 !important;
+  height: calc(100% - 77px - 64px);
 }
 </style>
 

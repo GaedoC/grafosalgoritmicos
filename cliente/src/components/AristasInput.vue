@@ -1,5 +1,5 @@
 <template>
-  <div class="is-full-h">
+  <div class="is-full-h" style="padding: 20px;">
     <div class="columns is-marginless is-paddingless is-full-h">
       <div class="column is-6" style="overflow-y: scroll; padding-right: 20px">
         <b-field grouped v-for="(origen, i) in origenes" :key="i">
@@ -33,10 +33,10 @@
             v-if="origenes.length > 1"
             label="Eliminar"
             class="is-danger"
-            position="is-right"
-            style="margin-top: 5px;"
+            position="is-left"
+            style="margin-top: -25px;"
           >
-            <a @click="eliminarArista(i)"
+            <a @click="eliminarArista(i)" style="margin-top: 30px;"
               ><b-icon pack="fa" class="is-danger" icon="minus-circle"></b-icon
             ></a>
           </b-tooltip>
@@ -62,7 +62,7 @@
           ref="cy"
           :config="config"
           :afterCreated="afterCreated"
-          style="border: 1px solid grey; height: 100%;"
+          style="border-left: 2px solid #f5f5f5; height: 100%;"
         >
           <cy-element
             v-for="def in elementos"
@@ -148,7 +148,6 @@ export default {
       for (let i = 0; i < this.origenes.length; i++) {
         const origen = this.origenes[i];
         const destino = this.destinos[i];
-        console.log("awa", origen, this.destinos);
         if (origen && destino) {
           elementos.push({
             data: {
@@ -161,7 +160,6 @@ export default {
           });
         }
       }
-      console.log(elementos);
       return elementos;
     },
     grafo() {
