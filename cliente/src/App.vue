@@ -1,5 +1,10 @@
 <template>
-  <div id="app">
+  <div
+    class="is-flex"
+    style="justify-content: center;
+    align-items: center;
+    height: 100%; padding: 40px;"
+  >
     <Main />
   </div>
 </template>
@@ -15,4 +20,18 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+html,
+body {
+  height: 100%;
+  min-height: 100%;
+}
+
+body {
+  background-color: #7958d5;
+}
+
+.is-full-h {
+  height: 100% !important;
+}
+</style>
