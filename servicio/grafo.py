@@ -121,23 +121,35 @@ class Grafo(object):
             ruta.appendleft(vertice_actual)
         return (list(deque(ruta)), peso_total)
 
-    @property
-    def matriz(self):
-        mat = np.zeros((len(self.vertices), len(self.vertices)))
-        while (a < len(self.aristas)):
-            i = buscar_id(self.vertices, self.aristas[a][0])
-            j = buscar_id(self.vertices, self.aristas[a][1])
-            mat[i][j] = self.aristas[a][2]
-            a += 1
-        return mat.tolist()
+    def aristas_incidentes(self, v):
+        aristas = []
+        for arista in self.aristas:
+            if (arista.inicio == v):
+                aristas.append(arista)
+        return aristas
 
     @property
-    def conexa(self):
+    def matriz_adyacencia(self):
+        cantidad_vertices = len(self.vertices)
+        matriz = np.zeros((cantidad_vertices, cantidad_vertices))
+        for indice_fila, vertice in enumerate(self.vertices):
+            incidentes = self.aristas_incidentes(vertice)
+            for incidente in incidentes:
+                indice_columna = self.vertices.index(incidente.final)
+                matriz[indice_fila, indice_columna] += 1
+        return matriz.tolist()
+
+    def matriz_caminos_largo_n(self, n):
+        matriz = self.matriz_adyacencia
+        return np.linalg.matrix_power(matriz, n).tolist()
+
+    @property
+    def es_conexo(self):
         a = 0
-        mat = np.linalg.matrix_power(self.matriz, a)
+        mat = self.matriz_caminos_largo_n(a)
         a += 1
         while(a < len(self.vertices)):
-            mat += np.linalg.matrix_power(self.matriz, a)
+            mat += self.matriz_caminos_largo_n(a)
             a += 1
         p = 0
         while(p < len(mat)):
@@ -166,7 +178,7 @@ class Grafo(object):
 
     @property
     def hamilton(self):
-        if(self.conexa and len(self.vertices) >= 3):
+        if(self.es_conexo and len(self.vertices) >= 3):
             p = len(self.vertices)/2
             for i in self.grados:
                 if(i < p):
@@ -204,7 +216,7 @@ class Grafo(object):
     @property
     def euler(self):
         a = 0
-        if(self.conexa):
+        if(self.es_conexo):
             while a < len(self.grados):
                 if(self.grados[a] % 2 != 0):
                     b = a+1
