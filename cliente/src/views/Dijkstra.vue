@@ -42,7 +42,7 @@
                   </b-autocomplete>
                 </b-field>
               </b-field>
-              <b-button type="is-primary" outlined rounded expanded :loading="cargando" @click="calcular"
+              <b-button type="is-primary" outlined rounded expanded :loading="cargando" @click="dijkstra"
                 >Calcular</b-button
               >
               <div v-if="respuesta">
@@ -147,11 +147,8 @@ export default {
       await cy;
       cy.layout(this.config.layout).run();
     },
-    calcular(){
-      this.cargando = true;
-      this.dijkstra();
-    },
     dijkstra() {
+      this.cargando = true;
       var data = {
         grafo: this.$store.getters.grafo,
         inicio: this.origen,
