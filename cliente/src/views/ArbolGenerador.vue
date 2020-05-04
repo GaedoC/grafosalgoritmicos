@@ -2,24 +2,34 @@
   <div class="is-full-h" style="padding: 20px;">
     <div class="columns is-marginless is-paddingless is-full-h">
       <div class="column is-6" style="overflow-y: scroll; padding-right: 20px">
-        <p class="title">Árbol generador mínimo</p>
+        <h1 class="title">Árbol generador mínimo</h1>
+        <div v-if="arbol != null && arbol.length">
+          <div v-for="(arista, i) in arbol" :key="i">
+            <p>{{ i + 1 + ". " + obtenerPaso(arbol, i) }}</p>
+
+            <div style="height: 200px;">
+              <grafo
+                :nodos="getGrafoByArbol(arbol, i).nodos"
+                :origenes="getGrafoByArbol(arbol, i).origenes"
+                :destinos="getGrafoByArbol(arbol, i).destinos"
+                :pesos="getGrafoByArbol(arbol, i).pesos"
+                :config="config"
+              />
+            </div>
+          </div>
+        </div>
         <b-button
           type="is-primary"
           outlined
           rounded
           expanded
-          v-if="!calculado"
           class="button"
+          @click="obtenerArbol()"
           >Generar</b-button
         >
-        <div v-else>
-          <b-button type="is-primary" outlined rounded expanded :disabled="true"
-            >Calcular</b-button
-          >
-          <p>La matriz de caminos es conexa</p>
-        </div>
       </div>
-      <div class="column is-6">
+
+      <div class="column is-6" style="border-left: 2px solid #f5f5f5; ">
         <grafo
           :nodos="$store.state.nodos"
           :origenes="$store.state.origenes"
@@ -43,11 +53,11 @@ export default {
     IngresarGrafo,
   },
   data: () => ({
-    indiceMaximo: 1,
-    calculado: false,
-    nodos: [],
-    cy: null,
+    cargando: false,
+    arbol: null,
     config: {
+      userPanningEnabled: false,
+      userZoomingEnabled: false,
       style: [
         {
           selector: "node",
@@ -56,77 +66,73 @@ export default {
             label: "data(id)",
           },
         },
+        {
+          selector: "edge",
+          style: {
+            width: 3,
+            "curve-style": "bezier",
+            "line-color": "#ccc",
+            "target-arrow-color": "#ccc",
+            "target-arrow-shape": "triangle",
+          },
+        },
       ],
-      layout: { name: "grid", rows: 3 },
+      layout: { name: "circle", row: 1 },
     },
   }),
-  watch: {
-    elementos() {
-      this.$nextTick(() => {
-        const cy = this.$refs.cy.instance;
-        this.afterCreated(cy);
-      });
-    },
-  },
-  computed: {
-    elementos() {
+
+  methods: {
+    getGrafoByArbol(arbol, i) {
+      var arbolActual = arbol.slice(0, i + 1);
       var nodos = [];
-      for (const etiqueta of this.nodos) {
-        if (etiqueta && etiqueta != "") {
+      var origenes = [];
+      var destinos = [];
+      var pesos = [];
+
+      for (const arista of arbolActual) {
+        origenes.push(arista[0]);
+        destinos.push(arista[1]);
+        pesos.push(arista[2]);
+
+        if (nodos.indexOf(arista[0]) == -1) {
           nodos.push({
-            data: { id: etiqueta },
-            position: {
-              x: 1,
-              y: 1,
-            },
-            group: "nodes",
+            etiqueta: arista[0],
+          });
+        }
+        if (nodos.indexOf(arista[1]) == -1) {
+          nodos.push({
+            etiqueta: arista[1],
           });
         }
       }
-      return nodos;
+
+      return {
+        nodos,
+        origenes,
+        destinos,
+        pesos,
+      };
     },
-  },
-  methods: {
-    agregarNodo() {
-      this.indiceMaximo++;
-      var valorAsciiA = 65;
-      var caracter = String.fromCharCode(valorAsciiA + this.indiceMaximo);
-      this.nodos.push(caracter);
-    },
-    eliminarNodo(i) {
-      this.nodos.splice(i, 1);
-    },
-    async afterCreated(cy) {
-      await cy;
-      cy.layout(this.config.layout).run();
-    },
-    obtenerMatriz() {
+    obtenerArbol() {
       axios({
-        method: post,
-        url: this.$apiUrl + "/matriz",
-        data: this.grafo,
+        method: "post",
+        url: this.$apiUrl + "/arbol",
+        data: {
+          grafo: this.$store.getters.grafo,
+        },
       })
         .then((r) => {
-          console.log("Respuesta", r.data);
+          this.arbol = r.data.arbol;
         })
         .catch((e) => {
           console.log(e);
         });
     },
+    obtenerPaso(arbol, i) {
+      var arbolActual = arbol.slice(0, i + 1);
+      var pasoActual = arbolActual.pop();
+      return pasoActual[0] + " ➜ " + pasoActual[1] + ` (${pasoActual[2]})`;
+    },
   },
 };
 </script>
-
-<style>
-#cytoscape-div {
-  min-height: 100px;
-  height: 100%;
-}
-
-#cytoscape-div,
-#cytoscape-div > div,
-#cytoscape-div > div > canvas {
-  min-height: 100px !important;
-  height: 100% !important;
-}
-</style>

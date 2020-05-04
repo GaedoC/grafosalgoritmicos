@@ -46,8 +46,12 @@
                 >Calcular</b-button
               >
               <div v-if="respuesta">
-              <p>{{`La duración del camino es de ${this.objetoRespuesta.pesoTotal}`}}</p>
-              <p>{{`La ruta fue: ${this.objetoRespuesta.ruta}`}}</p>
+                <p>
+                  {{
+                    `La duración del camino es de ${this.objetoRespuesta.pesoTotal}`
+                  }}
+                </p>
+                <p>{{ `La ruta fue: ${this.objetoRespuesta.ruta}` }}</p>
               </div>
             </div>
           </div>

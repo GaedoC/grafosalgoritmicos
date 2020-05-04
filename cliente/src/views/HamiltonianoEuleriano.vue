@@ -18,7 +18,7 @@
           <p>{{`El camino ${this.objetoRespuesta[1].es ? '' : 'no'} es Euleriano${this.objetoRespuesta[1].es ? (' y su camino es: ' + this.objetoRespuesta[1].camino) : ''}.`}}</p>
         </div>
       </div>
-      <div class="column is-6">
+      <div class="column is-6" style="border-left: 2px solid #f5f5f5; ">
         <grafo
           :nodos="$store.state.nodos"
           :origenes="$store.state.origenes"
