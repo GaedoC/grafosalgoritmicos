@@ -59,19 +59,12 @@
             </div>
           </div>
           <div class="column is-6">
-            <cytoscape
-              ref="cy"
-              :config="config"
-              :afterCreated="afterCreated"
-              style="border-left: 2px solid #f5f5f5; height: 100%;"
-            >
-              <cy-element
-                v-for="def in elementos"
-                :key="`${def.data.id}`"
-                sync
-                :definition="def"
-              />
-            </cytoscape>
+            <grafo
+              :nodos="$store.state.nodos"
+              :origenes="$store.state.origenes"
+              :destinos="$store.state.destinos"
+              :pesos="$store.state.pesos"
+            />
           </div>
         </div>
       </div>
@@ -81,16 +74,19 @@
 
 <script>
 import axios from "axios";
+import Grafo from "../components/Grafo.vue";
 
 export default {
   name: "Dijkstra",
-  components: {},
+  components: {
+    Grafo
+  },
   data: () => ({
     indiceMaximo: 1,
     calculado: false,
     origen: null,
     destino: null,
-    nodos: ["A"],
+    nodos: [],
     cy: null,
     config: {
       style: [
@@ -112,6 +108,15 @@ export default {
         this.afterCreated(cy);
       });
     },
+  },
+  mounted(){
+    var nodosStore = this.$store.state.nodos;
+    var nodosActuales = [];
+    for (let index = 0; index < nodosStore.length; index++) {
+      const element = nodosStore[index];
+      nodosActuales.push(element.etiqueta);
+    }
+    this.nodos = nodosActuales;
   },
   computed: {
     elementos() {

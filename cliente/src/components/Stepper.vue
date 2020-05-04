@@ -17,7 +17,7 @@
         class="is-full-h"
         style="border-bottom: 2px solid #f5f5f5; border-top: 2px solid #f5f5f5;"
       >
-        <nodos-input :nodos="nodos" />
+        <nodos-input :nodos="nodos" :nuevo="nuevo" />
       </b-step-item>
 
       <b-step-item
@@ -99,7 +99,7 @@ import NodosInput from "./NodosInput.vue";
 
 export default {
   name: "StepperData",
-  props: ["nodos", "origenes", "destinos", "pesos", "onFinalizar"],
+  props: ["nodos", "origenes", "destinos", "pesos", "onFinalizar", "nuevo"],
   components: {
     AristasInput,
     NodosInput,

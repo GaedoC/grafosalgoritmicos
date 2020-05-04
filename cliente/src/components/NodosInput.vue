@@ -61,7 +61,7 @@
 <script>
 export default {
   name: "NodosInput",
-  props: ["nodos"],
+  props: ["nodos", "nuevo"],
   data: () => ({
     indiceMaximo: 1,
     cy: null,
@@ -79,12 +79,14 @@ export default {
     },
   }),
   mounted() {
-    this.$nextTick(() => {
-      this.nodos.push({
-        id: this.nodos.length + 1,
-        etiqueta: "A",
+    if(this.nuevo){
+      this.$nextTick(() => {
+        this.nodos.push({
+          id: this.nodos.length + 1,
+          etiqueta: "A",
+        });
       });
-    });
+    }
   },
   computed: {
     sonTodosValidos() {

@@ -13,6 +13,7 @@
               :destinos="destinos"
               :pesos="pesos"
               :onFinalizar="onFinalizar"
+              :nuevo="nuevo"
             />
           </div>
           <div class="column is-paddingless is-5">
@@ -40,14 +41,27 @@ export default {
     Grafo,
   },
   data: () => ({
+    nuevo: false,
     nodos: [],
     origenes: [],
     destinos: [],
     pesos: [],
   }),
+  mounted(){
+    var nodosStore = this.$store.state.nodos;
+
+    if(nodosStore && nodosStore < 1){
+      this.nuevo = true;
+    } else{
+      this.nodos = nodosStore;
+      this.origenes = this.$store.state.origenes;
+      this.destinos = this.$store.state.destinos;
+      this.pesos = this.$store.state.pesos;
+    }
+  },
   methods: {
     onFinalizar() {
-      console.log(this.nodos, this.origenes, this.destinos, this.pesos);
+      console.log("FINALIZAR", this.nodos, this.origenes, this.destinos, this.pesos);
       this.$store.commit("crearGrafo", {
         nodos: this.nodos,
         origenes: this.origenes,
