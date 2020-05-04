@@ -3,6 +3,9 @@
     <div class="columns is-marginless is-paddingless is-full-h">
       <div class="column is-6" style="overflow-y: scroll;">
         <h1 class="title is-marginless">Flujo máximo</h1>
+        <div v-if="respuesta">
+          <p>{{ `El flujo máximo es ${this.objetoRespuesta}` }}</p>
+        </div>
         <b-field grouped style="margin-top: 20px;">
           <b-field expanded>
             <b-autocomplete
@@ -33,7 +36,13 @@
             </b-autocomplete>
           </b-field>
         </b-field>
-        <b-button type="is-primary" outlined rounded expanded
+        <b-button
+          type="is-primary"
+          outlined
+          rounded
+          expanded
+          :loading="cargando"
+          @click="flujo"
           >Calcular</b-button
         >
       </div>
@@ -60,11 +69,16 @@ export default {
   },
   data: () => ({
     calculado: false,
+    respuesta: false,
+    objetoRespuesta: null,
     origen: null,
     destino: null,
     nodos: [],
   }),
   mounted() {
+    this.cargando = false;
+    this.respuesta = false;
+    this.objetoRespuesta = null;
     var nodosStore = this.$store.state.nodos;
     var nodosActuales = [];
     for (let index = 0; index < nodosStore.length; index++) {
@@ -75,21 +89,24 @@ export default {
   },
 
   methods: {
-    dijkstra() {
+    flujo() {
+      this.cargando = true;
       var data = {
-        grafo: this.grafo,
-        inicio: this.origen,
-        final: this.destino,
+        grafo: this.$store.getters.grafo,
       };
       axios({
-        method: post,
+        method: "post",
         url: this.$apiUrl + "/dijkstra",
         data: data,
       })
         .then((r) => {
           console.log("Respuesta", r.data);
+          this.cargando = false;
+          this.respuesta = true;
+          this.objetoRespuesta = r.data;
         })
         .catch((e) => {
+          this.cargando = false;
           console.log(e);
         });
     },
