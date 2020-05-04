@@ -130,11 +130,7 @@ export default {
       layout: { name: "circle", row: 1 },
     },
   }),
-  mounted() {
-    this.origenes.push(null);
-    this.destinos.push(null);
-    this.pesos.push(0);
-  },
+  mounted() {},
   computed: {
     sonTodosValidos() {
       for (let i = 0; i < this.origenes.length; i++) {
@@ -180,26 +176,7 @@ export default {
       }
       return errores;
     },
-    matrizToKaTexMatrix(matriz) {
-      var exp = String.raw`\begin{pmatrix}`;
-      var esPrimeraFila = true;
-      for (const fila of matriz) {
-        var esPrimerElemento = true;
-        if (!esPrimeraFila) {
-          exp += String.raw`\\`;
-        }
-        for (const elemento of fila) {
-          if (!esPrimerElemento) {
-            exp += String.raw` & `;
-          }
-          exp += elemento.toString();
-          esPrimerElemento = false;
-        }
-        esPrimeraFila = false;
-      }
-      exp += String.raw`\end{pmatrix}`;
-      return exp;
-    },
+
     getNodosFiltrados(valor) {
       if (valor != null) {
         return this.nodos.filter((n) => {

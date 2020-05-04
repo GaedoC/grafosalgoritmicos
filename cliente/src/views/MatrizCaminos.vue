@@ -7,10 +7,21 @@
       <div class="is-full-h" style="padding: 20px;">
         <div class="columns is-marginless is-paddingless is-full-h">
           <div
-            class="column is-6"
-            style="overflow-y: scroll; padding-right: 20px"
+            class="column is-6 is-full-h"
+            style="display: flex; flex-direction: column; justify-content: space-between;"
           >
-            <p class="title">Matriz de camino</p>
+            <h1 class="title">Matriz de camino</h1>
+            <katex-element
+              :expression="
+                matrizToKaTexMatrix([
+                  [1, 2, 3, 4, 5],
+                  [3, 4, 5, 6, 7],
+                  [1, 2, 3, 4, 5],
+                  [3, 4, 5, 6, 7],
+                  [3, 4, 5, 6, 7],
+                ])
+              "
+            />
             <b-button
               type="is-primary"
               outlined
@@ -22,19 +33,12 @@
             >
           </div>
           <div class="column is-6">
-            <cytoscape
-              ref="cy"
-              :config="config"
-              :afterCreated="afterCreated"
-              style="border-left: 2px solid #f5f5f5; height: 100%;"
-            >
-              <cy-element
-                v-for="def in elementos"
-                :key="`${def.data.id}`"
-                sync
-                :definition="def"
-              />
-            </cytoscape>
+            <grafo
+              :nodos="$store.state.nodos"
+              :origenes="$store.state.origenes"
+              :destinos="$store.state.destinos"
+              :pesos="$store.state.pesos"
+            />
           </div>
         </div>
       </div>
@@ -44,58 +48,36 @@
 
 <script>
 import axios from "axios";
+import Grafo from "../components/Grafo.vue";
 
 export default {
   name: "MatrizCaminos",
-  components: {},
+  components: {
+    Grafo,
+  },
   data: () => ({
-    indiceMaximo: 1,
-    calculado: false,
-    nodos: ["A"],
-    cy: null,
-    config: {
-      style: [
-        {
-          selector: "node",
-          style: {
-            "background-color": "#7958d5",
-            label: "data(id)",
-          },
-        },
-      ],
-      layout: { name: "grid", rows: 3 },
-    },
+    cargando: false,
   }),
-  watch: {
-    elementos() {
-      this.$nextTick(() => {
-        const cy = this.$refs.cy.instance;
-        this.afterCreated(cy);
-      });
-    },
-  },
-  computed: {
-    elementos() {
-      var nodos = [];
-      for (const etiqueta of this.nodos) {
-        if (etiqueta && etiqueta != "") {
-          nodos.push({
-            data: { id: etiqueta },
-            position: {
-              x: 1,
-              y: 1,
-            },
-            group: "nodes",
-          });
-        }
-      }
-      return nodos;
-    },
-  },
   methods: {
-    async afterCreated(cy) {
-      await cy;
-      cy.layout(this.config.layout).run();
+    matrizToKaTexMatrix(matriz) {
+      var exp = String.raw`\begin{pmatrix}`;
+      var esPrimeraFila = true;
+      for (const fila of matriz) {
+        var esPrimerElemento = true;
+        if (!esPrimeraFila) {
+          exp += String.raw`\\`;
+        }
+        for (const elemento of fila) {
+          if (!esPrimerElemento) {
+            exp += String.raw` & `;
+          }
+          exp += elemento.toString();
+          esPrimerElemento = false;
+        }
+        esPrimeraFila = false;
+      }
+      exp += String.raw`\end{pmatrix}`;
+      return exp;
     },
     obtenerMatriz() {
       axios({
@@ -113,17 +95,3 @@ export default {
   },
 };
 </script>
-
-<style>
-#cytoscape-div {
-  min-height: 100px;
-  height: 100%;
-}
-
-#cytoscape-div,
-#cytoscape-div > div,
-#cytoscape-div > div > canvas {
-  min-height: 100px !important;
-  height: 100% !important;
-}
-</style>
