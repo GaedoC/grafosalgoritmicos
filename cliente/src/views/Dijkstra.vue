@@ -2,8 +2,8 @@
   <div class="is-full-h" style="padding: 20px;">
     <div class="columns is-marginless is-paddingless is-full-h">
       <div class="column is-6" style="overflow-y: scroll; padding-right: 20px">
-        <p class="title">Camino más corto</p>
-        <div class="column" v-if="!calculado">
+        <h1 class="title">Camino más corto</h1>
+        <div class="column">
           <b-field grouped class="is-marginless">
             <b-field expanded>
               <b-autocomplete
@@ -32,33 +32,18 @@
               >
                 <template slot="empty">Sin resultados</template>
               </b-autocomplete>
+              <p>El camino más corto es</p>
             </b-field>
           </b-field>
-          <b-button type="is-primary" outlined rounded expanded
-            >Calcular</b-button
-          >
         </div>
-        <div v-else>
-          <b-button type="is-primary" outlined rounded expanded :disabled="true"
-            >Calcular</b-button
-          >
-          <p>El camino más corto es</p>
-        </div>
-      </div>
-      <div class="column is-6">
-        <cytoscape
-          ref="cy"
-          :config="config"
-          :afterCreated="afterCreated"
-          style="border-left: 2px solid #f5f5f5; height: 100%;"
-        >
-          <cy-element
-            v-for="def in elementos"
-            :key="`${def.data.id}`"
-            sync
-            :definition="def"
+        <div class="column is-6">
+          <grafo
+            :nodos="$store.state.nodos"
+            :origenes="$store.state.origenes"
+            :destinos="$store.state.destinos"
+            :pesos="$store.state.pesos"
           />
-        </cytoscape>
+        </div>
       </div>
     </div>
   </div>
@@ -66,16 +51,19 @@
 
 <script>
 import axios from "axios";
+import Grafo from "../components/Grafo.vue";
 
 export default {
   name: "Dijkstra",
-  components: {},
+  components: {
+    Grafo,
+  },
   data: () => ({
     indiceMaximo: 1,
     calculado: false,
     origen: null,
     destino: null,
-    nodos: ["A"],
+    nodos: [],
     cy: null,
     config: {
       style: [
@@ -97,6 +85,15 @@ export default {
         this.afterCreated(cy);
       });
     },
+  },
+  mounted() {
+    var nodosStore = this.$store.state.nodos;
+    var nodosActuales = [];
+    for (let index = 0; index < nodosStore.length; index++) {
+      const element = nodosStore[index];
+      nodosActuales.push(element.etiqueta);
+    }
+    this.nodos = nodosActuales;
   },
   computed: {
     elementos() {

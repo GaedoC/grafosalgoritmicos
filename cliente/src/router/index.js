@@ -16,11 +16,6 @@ const routes = [{
         component: Presentacion
     },
     {
-        path: "/ingresar-grafo",
-        name: "ingresar-grafo",
-        component: IngresarGrafo
-    },
-    {
         path: "/matriz-de-caminos",
         name: "matriz-de-caminos",
         component: MatrizCaminos

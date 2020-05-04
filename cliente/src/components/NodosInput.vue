@@ -63,28 +63,15 @@ export default {
   name: "NodosInput",
   props: ["nodos"],
   data: () => ({
-    indiceMaximo: 1,
-    cy: null,
-    config: {
-      style: [
-        {
-          selector: "node",
-          style: {
-            "background-color": "#7958d5",
-            label: "data(id)",
-          },
-        },
-      ],
-      layout: { name: "grid", rows: 3 },
-    },
+    indiceMaximo: 0,
   }),
   mounted() {
-    this.$nextTick(() => {
+    if (!this.nodos.length) {
       this.nodos.push({
         id: this.nodos.length + 1,
         etiqueta: "A",
       });
-    });
+    }
   },
   computed: {
     sonTodosValidos() {

@@ -12,8 +12,18 @@
         icon-left="pencil"
         style="margin-bottom: 20px;"
         size="is-medium"
+        @click="editarGrafoModal = true"
         >Editar grafo</b-button
       >
+      <b-modal
+        :active.sync="editarGrafoModal"
+        trap-focus
+        destroy-on-hide
+        aria-role="dialog"
+        aria-modal
+      >
+        <ingresar-grafo />
+      </b-modal>
       <div class="is-flex" style="width: 100%;">
         <div
           class="card"
@@ -25,6 +35,61 @@
     </div>
   </div>
 </template>
+
+<script>
+const separator = {
+  template: `<hr style="border-color: rgba(255, 255, 255, 0.5); margin: 20px;">`,
+};
+
+import IngresarGrafo from "./views/IngresarGrafo.vue";
+
+export default {
+  name: "App",
+  components: {
+    IngresarGrafo,
+  },
+  data() {
+    return {
+      editarGrafoModal: false,
+      menu: [
+        {
+          href: "/presentacion",
+          title: "Presentación",
+          icon: "fa fa-user",
+        },
+        {
+          component: separator,
+        },
+        {
+          href: "/matriz-de-caminos",
+          title: "Matriz de caminos",
+          icon: "fa fa-table",
+        },
+        {
+          href: "/camino-mas-corto",
+          title: "Camino más corto",
+          icon: "fa fa-route",
+        },
+        {
+          href: "/hamiltoniano-o-euleriano",
+          title: "¿Hamiltoniano o Euleriano?",
+          icon: "fa fa-circle-notch",
+        },
+        {
+          href: "/flujo-maximo",
+          title: "Flujo máximo",
+          icon: "fa fa-shower",
+        },
+        {
+          href: "/arbol-generador-minimo",
+          title: "Árbol generador mínimo",
+          icon: "fa fa-tree",
+        },
+      ],
+    };
+  },
+};
+</script>
 
 <style lang="scss">
 @import "~bulma/sass/utilities/_all";
@@ -129,57 +194,3 @@ body {
 @import "~bulma";
 @import "~buefy/src/scss/buefy";
 </style>
-
-<script>
-const separator = {
-  template: `<hr style="border-color: rgba(255, 255, 255, 0.5); margin: 20px;">`,
-};
-
-export default {
-  name: "App",
-  data() {
-    return {
-      menu: [
-        {
-          href: "/presentacion",
-          title: "Presentación",
-          icon: "fa fa-user",
-        },
-        {
-          component: separator,
-        },
-        {
-          href: "/ingresar-grafo",
-          title: "Ingresar grafo",
-          icon: "fa fa-share-alt",
-        },
-        {
-          href: "/matriz-de-caminos",
-          title: "Matriz de caminos",
-          icon: "fa fa-table",
-        },
-        {
-          href: "/camino-mas-corto",
-          title: "Camino más corto",
-          icon: "fa fa-route",
-        },
-        {
-          href: "/hamiltoniano-o-euleriano",
-          title: "¿Hamiltoniano o Euleriano?",
-          icon: "fa fa-circle-notch",
-        },
-        {
-          href: "/flujo-maximo",
-          title: "Flujo máximo",
-          icon: "fa fa-shower",
-        },
-        {
-          href: "/arbol-generador-minimo",
-          title: "Árbol generador mínimo",
-          icon: "fa fa-tree",
-        },
-      ],
-    };
-  },
-};
-</script>
