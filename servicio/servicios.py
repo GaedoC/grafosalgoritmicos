@@ -29,8 +29,8 @@ def camino(json):
     return jsonify(resultado)
 
 def flujo(json):
-    # Lógica para indicar flujo máximo
-    return jsonify(flujo=True)
+    grafo = parsear_grafo(json['grafo'])
+    return jsonify(flujoMaximo=grafo.flujo_maximo(json['inicio'], json['final']))
 
 def arbol(json):
     grafo = parsear_grafo(json['grafo'])

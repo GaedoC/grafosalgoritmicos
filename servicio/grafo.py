@@ -275,7 +275,6 @@ class Grafo(object):
                     padre[ind] = u
         return True if(visitado[t]) else False
 
-    
     def flujo_maximo(self, origen, destino):
         aux=self.matriz_pesos
         fila=len(aux)
@@ -310,8 +309,6 @@ class Grafo(object):
                 union(V1, V2)
                 ar_min.add(arista)
         return sorted(ar_min)
-
-    
 
     def __str__(self):
         return 'Vertices: ' + str(self.vertices) + '\nAristas: ' + str(self.obtener_aristas)
