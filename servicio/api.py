@@ -3,7 +3,6 @@ from servicios import matriz, camino_mas_corto, camino, flujo, arbol
 
 application = Flask(__name__)
 
-
 @application.route('/', methods=['GET'])
 def conectar():
     return jsonify(mensaje='Conectado a servicio')
@@ -22,22 +21,21 @@ def dijkstra():
 
 # c. Indicar si es hamiltoniano y/o euleriano, y su camino respectivo
 @application.route('/camino', methods=['POST'])
-def caminoHE():
+def camino_hamilton_euler():
     content = request.get_json(silent=True)
     return camino(content)
 
 # d. Flujo máximo para un nodo de origen/entrada y otro de destino/salida
 @application.route('/flujo', methods=['POST'])
-def flujoMax():
+def flujo_maximo():
     content = request.get_json(silent=True)
     return flujo(content)
 
 # c. Árbol generador mínimo mediante prim o kruskal
 @application.route('/arbol', methods=['POST'])
-def arbolGen():
+def arbol_generador():
     content = request.get_json(silent=True)
     return arbol(content)
-
 
 if __name__ == '__main__':
     application.run(debug=True, host='localhost', port=5151)

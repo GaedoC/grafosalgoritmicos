@@ -1,14 +1,12 @@
 from collections import deque, namedtuple, OrderedDict
 import numpy as np
 
-
 def buscar_id(L, a):
     b = 0
     for i in L:
         if (i == a):
             return b
         b += 1
-
 
 def sort(L):
     A = L
@@ -19,21 +17,17 @@ def sort(L):
                 A[j], A[j+1] = A[j+1], A[j]
     return A
 
-
 parent = dict()
 rank = dict()
-
 
 def make_set(vertice):
     parent[vertice] = vertice
     rank[vertice] = 0
 
-
 def find(vertice):
     if parent[vertice] != vertice:
         parent[vertice] = find(parent[vertice])
     return parent[vertice]
-
 
 def union(vertice1, vertice2):
     root1 = find(vertice1)
@@ -46,9 +40,7 @@ def union(vertice1, vertice2):
         if rank[root1] == rank[root2]:
             rank[root2] += 1
 
-
 Arista = namedtuple('Arista', 'inicio, final, peso')
-
 
 class Grafo(object):
     def __init__(self, aristas, vertices):
@@ -68,7 +60,7 @@ class Grafo(object):
     @property
     def vertices(self):
         V = []
-        for letra in ("".join(OrderedDict.fromkeys(sum(([arista.inicio, arista.final] for arista in self.aristas), [])))):
+        for letra in (''.join(OrderedDict.fromkeys(sum(([arista.inicio, arista.final] for arista in self.aristas), [])))):
             V.append(letra)
         return V
     '''
@@ -159,7 +151,6 @@ class Grafo(object):
                     return False
                 q += 1
             p += 1
-
         return True
 
     @property
@@ -187,7 +178,7 @@ class Grafo(object):
         return False
 
     @property
-    def caminoH(self):
+    def camino_hamiltoniano(self):
         if(self.hamilton):
             V = []
             Ar = self.obtener_aristas
@@ -211,7 +202,7 @@ class Grafo(object):
                     a += 1
             V.append(Ar[0][0])
             return V
-        return "No hay camino hamiltoniano"
+        return 'No hay camino hamiltoniano'
 
     @property
     def euler(self):
@@ -235,7 +226,7 @@ class Grafo(object):
         return False
 
     @property
-    def caminoE(self):
+    def camino_euleriano(self):
         a = 0
         b = 0
         c = 0
@@ -279,7 +270,7 @@ class Grafo(object):
                     e = e+1
             v_camino.append(v_actual)
             return v_camino
-        return "No hay camino euleriano"
+        return 'No hay camino euleriano'
 
     @property
     def kruskal(self):
@@ -294,5 +285,10 @@ class Grafo(object):
                 ar_min.add(arista)
         return sorted(ar_min)
 
+    # @property
+    # def flujo_maximo(self, origen, destino):
+        # for arista in self.aristas:
+        #     f[u,v] = 0
+
     def __str__(self):
-        return "Vertices: " + str(self.vertices) + "\nAristas: " + str(self.obtener_aristas)
+        return 'Vertices: ' + str(self.vertices) + '\nAristas: ' + str(self.obtener_aristas)
