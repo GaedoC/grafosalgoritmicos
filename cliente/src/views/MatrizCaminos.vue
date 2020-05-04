@@ -2,7 +2,7 @@
   <div class="is-full-h" style="padding: 20px;">
     <div class="columns is-marginless is-paddingless is-full-h">
       <div class="column is-6 is-full-h">
-        <h1 class="title">Matriz de camino de largo n</h1>
+        <h1 class="title is-marginless">Matriz de camino de largo n</h1>
         <p v-if="esConexo != null" style="padding: 0 0 10px  0;">
           El grafo<strong>{{
             esConexo ? " es conexo" : " no es conexo"

@@ -18,7 +18,7 @@ Vue.use(VueSidebarMenu);
 Vue.use(VueKatex, {
   globalOptions: {},
 });
-Vue.prototype.$apiUrl = "http://localhost:5151";
+Vue.prototype.$apiUrl = "https://grafopuntojotapege.herokuapp.com";
 
 new Vue({
   router,

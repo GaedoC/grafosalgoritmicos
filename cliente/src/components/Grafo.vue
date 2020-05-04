@@ -38,7 +38,7 @@ export default {
     pesos: Array,
     config: {
       type: Object,
-      default: {
+      default: () => ({
         style: [
           {
             selector: "node",
@@ -60,7 +60,7 @@ export default {
           },
         ],
         layout: { name: "circle", row: 1 },
-      },
+      }),
     },
   },
   data: () => ({}),

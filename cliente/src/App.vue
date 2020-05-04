@@ -22,7 +22,7 @@
         aria-role="dialog"
         aria-modal
       >
-        <ingresar-grafo :onFinalizar="onFinalizar" />
+        <ingresar-grafo :onGuardar="onFinalizar" />
       </b-modal>
       <div class="is-flex" style="width: 100%;">
         <div

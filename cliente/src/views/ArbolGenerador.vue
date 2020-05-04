@@ -2,7 +2,8 @@
   <div class="is-full-h" style="padding: 20px;">
     <div class="columns is-marginless is-paddingless is-full-h">
       <div class="column is-6" style="overflow-y: scroll; padding-right: 20px">
-        <h1 class="title">Árbol generador mínimo</h1>
+        <h1 class="title is-marginless">Árbol generador mínimo</h1>
+        <span class="subtitle">Algoritmo de Krunskal</span>
         <div v-if="arbol != null && arbol.length">
           <div v-for="(arista, i) in arbol" :key="i">
             <p>{{ i + 1 + ". " + obtenerPaso(arbol, i) }}</p>

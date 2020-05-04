@@ -38,7 +38,7 @@ import Grafo from "../components/Grafo.vue";
 
 export default {
   name: "Main",
-  props: ["onFinalizar"],
+  props: ["onGuardar"],
   components: {
     Stepper,
     Grafo,
@@ -63,6 +63,7 @@ export default {
         destinos: this.destinos,
         pesos: this.pesos,
       });
+      this.onGuardar();
     },
   },
 };

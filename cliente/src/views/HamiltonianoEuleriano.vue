@@ -2,21 +2,11 @@
   <div class="is-full-h" style="padding: 20px;">
     <div class="columns is-marginless is-paddingless is-full-h">
       <div class="column is-6" style="overflow-y: scroll; padding-right: 20px">
-        <p class="title">¿Grafo Euleriano o Hamiltoniano?</p>
-        <b-button
-          type="is-primary"
-          outlined
-          rounded
-          expanded
-          class="button"
-          :loading="cargando"
-          @click="obtenerCamino"
-          >Determinar</b-button
-        >
+        <h1 class="title is-marginless">¿Grafo Euleriano o Hamiltoniano?</h1>
         <div v-if="respuesta">
           <p>
             {{
-              `El camino ${
+              `El grafo ${
                 this.objetoRespuesta[0].es ? "" : "no"
               } es Hamiltoniano${
                 this.objetoRespuesta[0].es
@@ -27,9 +17,7 @@
           </p>
           <p>
             {{
-              `El camino ${
-                this.objetoRespuesta[1].es ? "" : "no"
-              } es Euleriano${
+              `El grafo ${this.objetoRespuesta[1].es ? "" : "no"} es Euleriano${
                 this.objetoRespuesta[1].es
                   ? " y su camino es: " + this.objetoRespuesta[1].camino
                   : ""
@@ -37,6 +25,17 @@
             }}
           </p>
         </div>
+        <b-button
+          style="margin-top: 20px;"
+          type="is-primary"
+          outlined
+          rounded
+          expanded
+          class="button"
+          :loading="cargando"
+          @click="obtenerCamino"
+          >Determinar</b-button
+        >
       </div>
       <div class="column is-6" style="border-left: 2px solid #f5f5f5; ">
         <grafo

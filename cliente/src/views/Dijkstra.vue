@@ -1,75 +1,66 @@
 <template>
-  <div class="is-flex" style="width: 100%;">
-    <div
-      class="card"
-      style="width: 100%; height: calc(100vh - 80px); border-radius: 10px;"
-    >
-      <div class="is-full-h" style="padding: 20px;">
-        <div class="columns is-marginless is-paddingless is-full-h">
-          <div
-            class="column is-6"
-            style="overflow-y: scroll; padding-right: 20px"
-          >
-            <p class="title">Camino más corto</p>
-            <div class="column">
-              <div v-if="respuesta">
-                <p>
-                  {{
-                    `La duración del camino es de ${this.objetoRespuesta.pesoTotal}`
-                  }}
-                </p>
-                <p>{{ `La ruta fue: ${this.objetoRespuesta.ruta}` }}</p>
-              </div>
-              <b-field grouped style="margin-top: 20px;">
-                <b-field expanded>
-                  <b-autocomplete
-                    rounded
-                    v-model="origen"
-                    :data="nodos"
-                    keep-first
-                    open-on-focus
-                    field="etiqueta"
-                    placeholder="Nodo de origen"
-                    clearable
-                  >
-                    <template slot="empty">Sin resultados</template>
-                  </b-autocomplete>
-                </b-field>
-                <b-field expanded>
-                  <b-autocomplete
-                    rounded
-                    v-model="destino"
-                    :data="nodos"
-                    keep-first
-                    open-on-focus
-                    field="etiqueta"
-                    placeholder="Nodo de destino"
-                    clearable
-                  >
-                    <template slot="empty">Sin resultados</template>
-                  </b-autocomplete>
-                </b-field>
-              </b-field>
-              <b-button
-                type="is-primary"
-                outlined
+  <div class="is-full-h" style="padding: 20px;">
+    <div class="columns is-marginless is-paddingless is-full-h">
+      <div class="column is-6">
+        <h1 class="title is-marginless">Camino más corto</h1>
+        <span class="subtitle">Algoritmo de Dijkstra</span>
+        <div>
+          <div v-if="respuesta">
+            <p>
+              {{
+                `La duración del camino es de ${this.objetoRespuesta.pesoTotal}`
+              }}
+            </p>
+            <p>{{ `La ruta fue: ${this.objetoRespuesta.ruta}` }}</p>
+          </div>
+          <b-field grouped style="margin: 0; margin-top: 20px;">
+            <b-field expanded>
+              <b-autocomplete
                 rounded
-                expanded
-                :loading="cargando"
-                @click="dijkstra"
-                >Calcular</b-button
+                v-model="origen"
+                :data="nodos"
+                keep-first
+                open-on-focus
+                field="etiqueta"
+                placeholder="Nodo de origen"
+                clearable
               >
-            </div>
-          </div>
-          <div class="column is-6" style="border-left: 2px solid #f5f5f5; ">
-            <grafo
-              :nodos="$store.state.nodos"
-              :origenes="$store.state.origenes"
-              :destinos="$store.state.destinos"
-              :pesos="$store.state.pesos"
-            />
-          </div>
+                <template slot="empty">Sin resultados</template>
+              </b-autocomplete>
+            </b-field>
+            <b-field expanded>
+              <b-autocomplete
+                rounded
+                v-model="destino"
+                :data="nodos"
+                keep-first
+                open-on-focus
+                field="etiqueta"
+                placeholder="Nodo de destino"
+                clearable
+              >
+                <template slot="empty">Sin resultados</template>
+              </b-autocomplete>
+            </b-field>
+          </b-field>
+          <b-button
+            type="is-primary"
+            outlined
+            rounded
+            expanded
+            :loading="cargando"
+            @click="dijkstra"
+            >Calcular</b-button
+          >
         </div>
+      </div>
+      <div class="column is-6" style="border-left: 2px solid #f5f5f5; ">
+        <grafo
+          :nodos="$store.state.nodos"
+          :origenes="$store.state.origenes"
+          :destinos="$store.state.destinos"
+          :pesos="$store.state.pesos"
+        />
       </div>
     </div>
   </div>
