@@ -7,11 +7,21 @@
       >
         <h1 class="title">Matriz de camino</h1>
         <matriz v-if="matriz != null" :vertices="vertices" :matriz="matriz" />
+        <b-field expanded position="is-centered">
+          <b-numberinput
+            controls-position="compact"
+            controls-rounded
+            style="max-width: 200px"
+            min="0"
+            v-model="peso"
+          ></b-numberinput>
+        </b-field>
         <b-button
           type="is-primary"
           outlined
           rounded
           expanded
+          :loading="cargando"
           @click="obtenerMatriz"
           class="button"
           >Calcular</b-button
@@ -43,6 +53,7 @@ export default {
   data: () => ({
     cargando: false,
     matriz: null,
+    peso: 0,
     vertices: [],
     esConexo: null,
   }),
@@ -68,22 +79,24 @@ export default {
       return exp;
     },
     obtenerMatriz() {
+      this.cargando = true;
       axios({
         method: "post",
         url: this.$apiUrl + "/matriz",
         data: {
-          largo: 1,
+          largo: this.peso,
           grafo: this.$store.getters.grafo,
         },
       })
         .then((r) => {
+          this.cargando = false;
           this.matriz = r.data.matriz;
           this.vertices = r.data.vertices;
           this.esConexo = r.data.esConexo;
-          console.log(this.matriz);
         })
         .catch((e) => {
           console.log(e);
+          this.cargando = false;
         });
     },
   },
