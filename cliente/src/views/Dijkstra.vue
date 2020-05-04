@@ -11,7 +11,7 @@
             style="overflow-y: scroll; padding-right: 20px"
           >
             <p class="title">Camino más corto</p>
-            <div class="column" v-if="!calculado">
+            <div class="column">
               <b-field grouped class="is-marginless">
                 <b-field expanded>
                   <b-autocomplete
@@ -42,20 +42,9 @@
                   </b-autocomplete>
                 </b-field>
               </b-field>
-              <b-button type="is-primary" outlined rounded expanded
+              <b-button type="is-primary" outlined rounded expanded :loading="cargando" @click="calcular"
                 >Calcular</b-button
               >
-            </div>
-            <div v-else>
-              <b-button
-                type="is-primary"
-                outlined
-                rounded
-                expanded
-                :disabled="true"
-                >Calcular</b-button
-              >
-              <p>El camino más corto es</p>
             </div>
           </div>
           <div class="column is-6">
@@ -83,7 +72,7 @@ export default {
   },
   data: () => ({
     indiceMaximo: 1,
-    calculado: false,
+    cargando: false,
     origen: null,
     destino: null,
     nodos: [],
@@ -150,22 +139,28 @@ export default {
       await cy;
       cy.layout(this.config.layout).run();
     },
+    calcular(){
+      this.cargando = true;
+      this.dijkstra();
+    },
     dijkstra() {
       var data = {
-        grafo: this.grafo,
+        grafo: this.$store.state.grafo,
         inicio: this.origen,
         final: this.destino,
       };
       axios({
-        method: post,
+        method: "post",
         url: this.$apiUrl + "/dijkstra",
         data: data,
       })
         .then((r) => {
           console.log("Respuesta", r.data);
+          this.cargando = false;
         })
         .catch((e) => {
           console.log(e);
+          this.cargando = false;
         });
     },
   },

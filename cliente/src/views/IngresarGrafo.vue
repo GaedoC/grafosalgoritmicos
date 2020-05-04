@@ -61,14 +61,12 @@ export default {
   },
   methods: {
     onFinalizar() {
-      console.log("FINALIZAR", this.nodos, this.origenes, this.destinos, this.pesos);
       this.$store.commit("crearGrafo", {
         nodos: this.nodos,
         origenes: this.origenes,
         destinos: this.destinos,
         pesos: this.pesos,
       });
-      console.log(this.$store.state);
     },
   },
 };
