@@ -47,11 +47,9 @@
               >
               <div v-if="respuesta">
                 <p>
-                  {{
-                    `La duración del camino es de ${this.objetoRespuesta.pesoTotal}`
-                  }}
+                  {{this.objetoRespuesta.ruta.length != 0 ? `La duración del camino es de${this.objetoRespuesta.pesoTotal}` : 'No se especifíca duración.'}}
                 </p>
-                <p>{{ `La ruta fue: ${this.objetoRespuesta.ruta}` }}</p>
+                <p>{{this.objetoRespuesta.ruta.length != 0 ? `La ruta fue ${this.objetoRespuesta.ruta}` : 'No hay una ruta específica.'}}</p>
               </div>
             </div>
           </div>

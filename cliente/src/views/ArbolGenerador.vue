@@ -24,6 +24,7 @@
           rounded
           expanded
           class="button"
+          :loading="cargando"
           @click="obtenerArbol()"
           >Generar</b-button
         >
@@ -114,6 +115,7 @@ export default {
       };
     },
     obtenerArbol() {
+      this.cargando = true;
       axios({
         method: "post",
         url: this.$apiUrl + "/arbol",
@@ -123,8 +125,10 @@ export default {
       })
         .then((r) => {
           this.arbol = r.data.arbol;
+          this.cargando = false;
         })
         .catch((e) => {
+          this.cargando = false;
           console.log(e);
         });
     },

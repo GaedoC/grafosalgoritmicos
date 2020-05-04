@@ -3,7 +3,7 @@
     <div class="columns is-marginless is-paddingless is-full-h">
       <div class="column is-6" style="overflow-y: scroll; padding-right: 20px">
         <p class="title">Flujo máximo</p>
-        <div class="column" v-if="!calculado">
+        <div class="column">
           <b-field grouped class="is-marginless">
             <b-field expanded>
               <b-autocomplete
@@ -34,15 +34,12 @@
               </b-autocomplete>
             </b-field>
           </b-field>
-          <b-button type="is-primary" outlined rounded expanded
+          <b-button type="is-primary" outlined rounded expanded :loading="cargando" @click="flujo"
             >Calcular</b-button
           >
         </div>
-        <div v-else>
-          <b-button type="is-primary" outlined rounded expanded :disabled="true"
-            >Calcular</b-button
-          >
-          <p>El camino más corto es</p>
+        <div v-if="respuesta">
+          <p>{{`El flujo máximo es ${this.objetoRespuesta}`}}</p>
         </div>
       </div>
       <div class="column is-6" style="border-left: 2px solid #f5f5f5; ">
@@ -69,6 +66,8 @@ export default {
   data: () => ({
     indiceMaximo: 1,
     calculado: false,
+    respuesta: false,
+    objetoRespuesta: null,
     origen: null,
     destino: null,
     nodos: [],
@@ -95,6 +94,9 @@ export default {
     },
   },
   mounted() {
+    this.cargando = false;
+    this.respuesta = false;
+    this.objetoRespuesta = null;
     var nodosStore = this.$store.state.nodos;
     var nodosActuales = [];
     for (let index = 0; index < nodosStore.length; index++) {
@@ -135,21 +137,24 @@ export default {
       await cy;
       cy.layout(this.config.layout).run();
     },
-    dijkstra() {
+    flujo() {
+      this.cargando = true;
       var data = {
-        grafo: this.grafo,
-        inicio: this.origen,
-        final: this.destino,
+        grafo: this.$store.getters.grafo,
       };
       axios({
-        method: post,
+        method: "post",
         url: this.$apiUrl + "/dijkstra",
         data: data,
       })
         .then((r) => {
           console.log("Respuesta", r.data);
+          this.cargando = false;
+          this.respuesta = true;
+          this.objetoRespuesta = r.data;
         })
         .catch((e) => {
+          this.cargando = false;
           console.log(e);
         });
     },
