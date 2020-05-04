@@ -61,30 +61,15 @@
 <script>
 export default {
   name: "NodosInput",
-  props: ["nodos", "nuevo"],
+  props: ["nodos"],
   data: () => ({
-    indiceMaximo: 1,
-    cy: null,
-    config: {
-      style: [
-        {
-          selector: "node",
-          style: {
-            "background-color": "#7958d5",
-            label: "data(id)",
-          },
-        },
-      ],
-      layout: { name: "grid", rows: 3 },
-    },
+    indiceMaximo: 0,
   }),
   mounted() {
-    if(this.nuevo){
-      this.$nextTick(() => {
-        this.nodos.push({
-          id: this.nodos.length + 1,
-          etiqueta: "A",
-        });
+    if (!this.nodos.length) {
+      this.nodos.push({
+        id: this.nodos.length + 1,
+        etiqueta: "A",
       });
     }
   },

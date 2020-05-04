@@ -2,7 +2,7 @@
   <div class="is-flex" style="width: 100%;">
     <div
       class="card"
-      style="width: 100%; height: calc(100vh - 80px); border-radius: 10px;"
+      style="width: 100%; height: calc(100vh - 80px - 45px); border-radius: 10px;"
     >
       <div class="is-full-h" style="padding: 20px;">
         <div class="columns is-marginless is-paddingless is-full-h">
@@ -13,7 +13,6 @@
               :destinos="destinos"
               :pesos="pesos"
               :onFinalizar="onFinalizar"
-              :nuevo="nuevo"
             />
           </div>
           <div class="column is-paddingless is-5">
@@ -41,23 +40,16 @@ export default {
     Grafo,
   },
   data: () => ({
-    nuevo: false,
     nodos: [],
     origenes: [],
     destinos: [],
     pesos: [],
   }),
-  mounted(){
-    var nodosStore = this.$store.state.nodos;
-
-    if(nodosStore && nodosStore < 1){
-      this.nuevo = true;
-    } else{
-      this.nodos = nodosStore;
-      this.origenes = this.$store.state.origenes;
-      this.destinos = this.$store.state.destinos;
-      this.pesos = this.$store.state.pesos;
-    }
+  mounted() {
+    this.nodos = this.$store.state.nodos;
+    this.origenes = this.$store.state.origenes;
+    this.destinos = this.$store.state.destinos;
+    this.pesos = this.$store.state.pesos;
   },
   methods: {
     onFinalizar() {

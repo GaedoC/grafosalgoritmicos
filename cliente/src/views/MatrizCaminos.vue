@@ -1,46 +1,29 @@
 <template>
-  <div class="is-flex" style="width: 100%;">
-    <div
-      class="card"
-      style="width: 100%; height: calc(100vh - 80px); border-radius: 10px;"
-    >
-      <div class="is-full-h" style="padding: 20px;">
-        <div class="columns is-marginless is-paddingless is-full-h">
-          <div
-            class="column is-6 is-full-h"
-            style="display: flex; flex-direction: column; justify-content: space-between;"
-          >
-            <h1 class="title">Matriz de camino</h1>
-            <katex-element
-              :expression="
-                matrizToKaTexMatrix([
-                  [1, 2, 3, 4, 5],
-                  [3, 4, 5, 6, 7],
-                  [1, 2, 3, 4, 5],
-                  [3, 4, 5, 6, 7],
-                  [3, 4, 5, 6, 7],
-                ])
-              "
-            />
-            <b-button
-              type="is-primary"
-              outlined
-              rounded
-              expanded
-              @click="obtenerMatriz"
-              class="button"
-              >Calcular</b-button
-            >
-          </div>
-          <div class="column is-6">
-            <grafo
-              :nodos="$store.state.nodos"
-              :origenes="$store.state.origenes"
-              :destinos="$store.state.destinos"
-              :pesos="$store.state.pesos"
-            />
-          </div>
-        </div>
+  <div class="is-full-h" style="padding: 20px;">
+    <div class="columns is-marginless is-paddingless is-full-h">
+      <div
+        class="column is-6 is-full-h"
+        style="display: flex; flex-direction: column; justify-content: space-between;"
+      >
+        <h1 class="title">Matriz de camino</h1>
+        <matriz v-if="matriz != null" :vertices="vertices" :matriz="matriz" />
+        <b-button
+          type="is-primary"
+          outlined
+          rounded
+          expanded
+          @click="obtenerMatriz"
+          class="button"
+          >Calcular</b-button
+        >
+      </div>
+      <div class="column is-6">
+        <grafo
+          :nodos="$store.state.nodos"
+          :origenes="$store.state.origenes"
+          :destinos="$store.state.destinos"
+          :pesos="$store.state.pesos"
+        />
       </div>
     </div>
   </div>
@@ -49,14 +32,19 @@
 <script>
 import axios from "axios";
 import Grafo from "../components/Grafo.vue";
+import Matriz from "../components/Matriz.vue";
 
 export default {
   name: "MatrizCaminos",
   components: {
     Grafo,
+    Matriz,
   },
   data: () => ({
     cargando: false,
+    matriz: null,
+    vertices: [],
+    esConexo: null,
   }),
   methods: {
     matrizToKaTexMatrix(matriz) {
@@ -83,10 +71,16 @@ export default {
       axios({
         method: "post",
         url: this.$apiUrl + "/matriz",
-        data: this.$store.getters.grafo,
+        data: {
+          largo: 1,
+          grafo: this.$store.getters.grafo,
+        },
       })
         .then((r) => {
-          console.log("Respuesta", r.data);
+          this.matriz = r.data.matriz;
+          this.vertices = r.data.vertices;
+          this.esConexo = r.data.esConexo;
+          console.log(this.matriz);
         })
         .catch((e) => {
           console.log(e);

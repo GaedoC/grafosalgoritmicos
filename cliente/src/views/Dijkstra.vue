@@ -68,7 +68,7 @@ import Grafo from "../components/Grafo.vue";
 export default {
   name: "Dijkstra",
   components: {
-    Grafo
+    Grafo,
   },
   data: () => ({
     indiceMaximo: 1,
@@ -98,7 +98,7 @@ export default {
       });
     },
   },
-  mounted(){
+  mounted() {
     var nodosStore = this.$store.state.nodos;
     var nodosActuales = [];
     for (let index = 0; index < nodosStore.length; index++) {

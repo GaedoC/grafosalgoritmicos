@@ -1,32 +1,31 @@
 <template>
-  <div class="is-flex" style="width: 100%;">
-    <div class="card" style="width: 100%; height: calc(100vh - 80px); border-radius: 10px;">
-      <div class="is-full-h" style="padding: 20px;">
-        <div class="columns is-marginless is-paddingless is-full-h">
-          <div class="column is-6" style="overflow-y: scroll; padding-right: 20px">
-            <p class="title">Árbol generador mínimo</p>
-            <b-button
-              type="is-primary"
-              outlined
-              rounded
-              expanded
-              v-if="!calculado"
-              class="button"
-            >Generar</b-button>
-            <div v-else>
-              <b-button type="is-primary" outlined rounded expanded :disabled="true">Calcular</b-button>
-              <p>La matriz de caminos es conexa</p>
-            </div>
-          </div>
-          <div class="column is-6">
-            <grafo
-              :nodos="$store.state.nodos"
-              :origenes="$store.state.origenes"
-              :destinos="$store.state.destinos"
-              :pesos="$store.state.pesos"
-            />
-          </div>
+  <div class="is-full-h" style="padding: 20px;">
+    <div class="columns is-marginless is-paddingless is-full-h">
+      <div class="column is-6" style="overflow-y: scroll; padding-right: 20px">
+        <p class="title">Árbol generador mínimo</p>
+        <b-button
+          type="is-primary"
+          outlined
+          rounded
+          expanded
+          v-if="!calculado"
+          class="button"
+          >Generar</b-button
+        >
+        <div v-else>
+          <b-button type="is-primary" outlined rounded expanded :disabled="true"
+            >Calcular</b-button
+          >
+          <p>La matriz de caminos es conexa</p>
         </div>
+      </div>
+      <div class="column is-6">
+        <grafo
+          :nodos="$store.state.nodos"
+          :origenes="$store.state.origenes"
+          :destinos="$store.state.destinos"
+          :pesos="$store.state.pesos"
+        />
       </div>
     </div>
   </div>
@@ -34,12 +33,14 @@
 
 <script>
 import axios from "axios";
-import Grafo from "../components/Grafo.vue"
+import Grafo from "../components/Grafo.vue";
+import IngresarGrafo from "../views/IngresarGrafo";
 
 export default {
   name: "MatrizCaminos",
   components: {
-    Grafo
+    Grafo,
+    IngresarGrafo,
   },
   data: () => ({
     indiceMaximo: 1,
@@ -52,12 +53,12 @@ export default {
           selector: "node",
           style: {
             "background-color": "#7958d5",
-            label: "data(id)"
-          }
-        }
+            label: "data(id)",
+          },
+        },
       ],
-      layout: { name: "grid", rows: 3 }
-    }
+      layout: { name: "grid", rows: 3 },
+    },
   }),
   watch: {
     elementos() {
@@ -65,7 +66,7 @@ export default {
         const cy = this.$refs.cy.instance;
         this.afterCreated(cy);
       });
-    }
+    },
   },
   computed: {
     elementos() {
@@ -76,14 +77,14 @@ export default {
             data: { id: etiqueta },
             position: {
               x: 1,
-              y: 1
+              y: 1,
             },
-            group: "nodes"
+            group: "nodes",
           });
         }
       }
       return nodos;
-    }
+    },
   },
   methods: {
     agregarNodo() {
@@ -103,16 +104,16 @@ export default {
       axios({
         method: post,
         url: this.$apiUrl + "/matriz",
-        data: this.grafo
+        data: this.grafo,
       })
-        .then(r => {
+        .then((r) => {
           console.log("Respuesta", r.data);
         })
-        .catch(e => {
+        .catch((e) => {
           console.log(e);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 
