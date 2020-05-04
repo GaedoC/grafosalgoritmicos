@@ -45,6 +45,10 @@
               <b-button type="is-primary" outlined rounded expanded :loading="cargando" @click="calcular"
                 >Calcular</b-button
               >
+              <div v-if="respuesta">
+              <p>{{`La duración del camino es de ${this.objetoRespuesta.pesoTotal}`}}</p>
+              <p>{{`La ruta fue: ${this.objetoRespuesta.ruta}`}}</p>
+              </div>
             </div>
           </div>
           <div class="column is-6">
@@ -73,6 +77,8 @@ export default {
   data: () => ({
     indiceMaximo: 1,
     cargando: false,
+    respuesta: false,
+    objetoRespuesta: null,
     origen: null,
     destino: null,
     nodos: [],
@@ -99,6 +105,8 @@ export default {
     },
   },
   mounted() {
+    this.respuesta = false;
+    this.objetoRespuesta = null;
     var nodosStore = this.$store.state.nodos;
     var nodosActuales = [];
     for (let index = 0; index < nodosStore.length; index++) {
@@ -145,7 +153,7 @@ export default {
     },
     dijkstra() {
       var data = {
-        grafo: this.$store.state.grafo,
+        grafo: this.$store.getters.grafo,
         inicio: this.origen,
         final: this.destino,
       };
@@ -155,7 +163,8 @@ export default {
         data: data,
       })
         .then((r) => {
-          console.log("Respuesta", r.data);
+          this.objetoRespuesta = r.data;
+          this.respuesta = true;
           this.cargando = false;
         })
         .catch((e) => {
