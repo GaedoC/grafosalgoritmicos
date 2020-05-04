@@ -215,7 +215,6 @@ class Grafo(object):
                         D = Ar[a][0]
                         b += 1
                     a += 1
-            V.append(Ar[0][0])
             return V
         return "No hay camino hamiltoniano"
 
@@ -225,19 +224,9 @@ class Grafo(object):
         if(self.es_conexo):
             while a < len(self.grados):
                 if(self.grados[a] % 2 != 0):
-                    b = a+1
-                    while b < len(self.grados):
-                        if(self.grados[b] % 2 != 0):
-                            c = b+1
-                            while c < len(self.grados):
-                                if(self.grados[c] % 2 != 0):
-                                    return False
-                                c = c+1
-                            return True
-                        b = b+1
                     return False
                 a = a+1
-                return True
+            return True
         return False
 
     @property
@@ -246,7 +235,6 @@ class Grafo(object):
         b = 0
         c = 0
         d = 0
-        e = 0
         if(self.euler):
             aristas = []
             v_actual = self.vertices[0]
@@ -256,36 +244,25 @@ class Grafo(object):
                 aristas.append(
                     (self.obtener_aristas[a][0], self.obtener_aristas[a][1]))
                 a = a+1
-            while b < len(aristas):
-                if v_actual == aristas[b][0]:
-                    v_camino.append(v_actual)
-                    v_actual = aristas[b][1]
-                    a_recorridas.append(aristas[b])
-                b = b+1
-            if len(a_recorridas) != len(aristas):
-                while c < len(aristas):
-                    if v_actual == aristas[c][1]:
+            while d < len(aristas):
+                while b < len(aristas):
+                    if v_actual == aristas[b][0]:
                         v_camino.append(v_actual)
-                        v_actual = aristas[c][0]
-                        a_recorridas.append(aristas[c])
-                    c = c+1
-            if len(a_recorridas) != len(aristas):
-                while d < len(aristas):
-                    if v_actual == aristas[d][0] and aristas[d] not in a_recorridas:
-                        v_camino.append(v_actual)
-                        v_actual = aristas[d][1]
-                        a_recorridas.append(aristas[d])
-                    d = d+1
-            if len(a_recorridas) != len(aristas):
-                while e < len(aristas):
-                    if v_actual == aristas[e][1] and aristas[e] not in a_recorridas:
-                        v_camino.append(v_actual)
-                        v_actual = aristas[e][0]
-                        a_recorridas.append(aristas[e])
-                    e = e+1
+                        v_actual = aristas[b][1]
+                        a_recorridas.append(aristas[b])
+                    b = b+1
+                if len(a_recorridas) != len(aristas):
+                    while c < len(aristas):
+                        if v_actual == aristas[c][0] and aristas[c] not in a_recorridas :
+                            v_camino.append(v_actual)
+                            v_actual = aristas[c][1]
+                            a_recorridas.append(aristas[c])
+                        c = c+1
+                d=d+1
+            
             v_camino.append(v_actual)
             return v_camino
-        return "No hay camino euleriano"
+        return "No hay ciclo euleriano"
 
     def bfs(self, s, t, padre):
         ''' Devuelve true si existe un camino entre s y t,
