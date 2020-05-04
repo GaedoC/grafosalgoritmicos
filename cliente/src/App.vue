@@ -22,7 +22,7 @@
         aria-role="dialog"
         aria-modal
       >
-        <ingresar-grafo />
+        <ingresar-grafo :onFinalizar="onFinalizar" />
       </b-modal>
       <div class="is-flex" style="width: 100%;">
         <div
@@ -87,6 +87,15 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    onFinalizar() {
+      this.editarGrafoModal = false;
+      this.$buefy.toast.open({
+        message: "El grafo se actualizó correctamente",
+        type: "is-success",
+      });
+    },
   },
 };
 </script>

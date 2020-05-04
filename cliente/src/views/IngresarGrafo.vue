@@ -35,6 +35,7 @@ import Grafo from "../components/Grafo.vue";
 
 export default {
   name: "Main",
+  props: ["onFinalizar"],
   components: {
     Stepper,
     Grafo,
@@ -53,20 +54,12 @@ export default {
   },
   methods: {
     onFinalizar() {
-      console.log(
-        "FINALIZAR",
-        this.nodos,
-        this.origenes,
-        this.destinos,
-        this.pesos
-      );
       this.$store.commit("crearGrafo", {
         nodos: this.nodos,
         origenes: this.origenes,
         destinos: this.destinos,
         pesos: this.pesos,
       });
-      console.log(this.$store.state);
     },
   },
 };

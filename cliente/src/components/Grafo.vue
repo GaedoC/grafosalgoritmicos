@@ -3,7 +3,7 @@
     ref="cy"
     :config="config"
     :afterCreated="afterCreated"
-    style="border-left: 2px solid #f5f5f5; height: 100%;"
+    style="height: 100%;"
   >
     <cy-element
       v-for="def in elementos"
@@ -31,31 +31,38 @@
 <script>
 export default {
   name: "Grafo",
-  props: ["nodos", "origenes", "destinos", "pesos"],
-  data: () => ({
+  props: {
+    nodos: Array,
+    origenes: Array,
+    destinos: Array,
+    pesos: Array,
     config: {
-      style: [
-        {
-          selector: "node",
-          style: {
-            "background-color": "#7958d5",
-            label: "data(id)",
+      type: Object,
+      default: {
+        style: [
+          {
+            selector: "node",
+            style: {
+              "background-color": "#7958d5",
+              label: "data(id)",
+            },
           },
-        },
-        {
-          selector: "edge",
-          style: {
-            width: 3,
-            "curve-style": "bezier",
-            "line-color": "#ccc",
-            "target-arrow-color": "#ccc",
-            "target-arrow-shape": "triangle",
+          {
+            selector: "edge",
+            style: {
+              width: 3,
+              "curve-style": "bezier",
+              "line-color": "#ccc",
+              "target-arrow-color": "#ccc",
+              "target-arrow-shape": "triangle",
+            },
           },
-        },
-      ],
-      layout: { name: "circle", row: 1 },
+        ],
+        layout: { name: "circle", row: 1 },
+      },
     },
-  }),
+  },
+  data: () => ({}),
   watch: {
     elementos() {
       this.$nextTick(() => {
