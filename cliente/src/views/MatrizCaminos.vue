@@ -56,7 +56,7 @@ export default {
   data: () => ({
     cargando: false,
     matriz: null,
-    peso: 0,
+    peso: 1,
     vertices: [],
     esConexo: null,
   }),

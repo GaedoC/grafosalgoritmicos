@@ -50,6 +50,7 @@ export default {
           {
             selector: "edge",
             style: {
+              label: "data(weight)",
               width: 3,
               "curve-style": "bezier",
               "line-color": "#ccc",
@@ -89,12 +90,14 @@ export default {
       for (let i = 0; i < this.origenes.length; i++) {
         const origen = this.origenes[i];
         const destino = this.destinos[i];
+        const peso = this.pesos[i];
         if (origen && destino) {
           elementos.push({
             data: {
               id: origen + destino,
               source: origen,
               target: destino,
+              weight: peso,
               type: "loop",
             },
             group: "edges",
