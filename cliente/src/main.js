@@ -7,7 +7,7 @@ import router from "./router";
 import VueSidebarMenu from 'vue-sidebar-menu';
 
 import "katex/dist/katex.min.css";
-import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
+import 'vue-sidebar-menu/dist/vue-sidebar-menu.css';
 
 Vue.config.productionTip = false;
 
@@ -17,6 +17,7 @@ Vue.use(VueSidebarMenu);
 Vue.use(VueKatex, {
   globalOptions: {},
 });
+Vue.prototype.$apiUrl = "http://localhost:5151";
 
 new Vue({
   router,
