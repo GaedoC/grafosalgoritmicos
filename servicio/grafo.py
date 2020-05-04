@@ -286,6 +286,29 @@ class Grafo(object):
         print(self.reconstruir_camino(padre, 1))
         return visitados[t]
 
+
+    def flujo_maximo(self, origen, destino):
+        aux=self.matriz_adyacencia
+        fila=len(aux)
+        padre = [-1]*fila
+        max_flujo=0
+        orig=buscar_id(self.vertices,origen)
+        dest=buscar_id(self.vertices,destino)
+        while(self.bfs(orig,dest,padre)):
+            camino_flujo=float("inf")
+            s=dest
+            while(s!=orig):
+                camino_flujo=min(camino_flujo,aux[padre[s]][s])
+                s=padre[s]
+            max_flujo += camino_flujo
+            v=destino
+            while(v!=orig):
+                u=padre[v]
+                aux[u][v] -= camino_flujo
+                aux[v][u] += camino_flujo
+                v=padre[v]
+        return max_flujo
+        
     @property
     def kruskal(self):
         for vertice in self.vertices:
@@ -299,10 +322,7 @@ class Grafo(object):
                 ar_min.add(arista)
         return sorted(ar_min)
 
-    # @property
-    # def flujo_maximo(self, origen, destino):
-        # for arista in self.aristas:
-        #     f[u,v] = 0
+    
 
     def __str__(self):
         return 'Vertices: ' + str(self.vertices) + '\nAristas: ' + str(self.obtener_aristas)
