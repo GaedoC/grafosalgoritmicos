@@ -4,8 +4,24 @@
     height: 100%;"
   >
     <sidebar-menu :menu="menu" hide-toggle collapsed :width="`260px`" />
-    <div style="padding: 40px; width: calc(100% - 50px); float: right">
-      <router-view />
+    <div style="padding: 30px; width: calc(100% - 50px); float: right">
+      <b-button
+        type="is-primary"
+        inverted
+        rounded
+        icon-left="pencil"
+        style="margin-bottom: 20px;"
+        size="is-medium"
+        >Editar grafo</b-button
+      >
+      <div class="is-flex" style="width: 100%;">
+        <div
+          class="card"
+          style="width: 100%; height: calc(100vh - 80px - 45px); border-radius: 10px;"
+        >
+          <router-view />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -125,7 +141,7 @@ export default {
     return {
       menu: [
         {
-          href: "/",
+          href: "/presentacion",
           title: "Presentación",
           icon: "fa fa-user",
         },

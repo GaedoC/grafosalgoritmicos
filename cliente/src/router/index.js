@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Principal from "../views/Principal";
+import Presentacion from "../views/Presentacion";
 import IngresarGrafo from "../views/IngresarGrafo";
 import MatrizCaminos from "../views/MatrizCaminos";
 import Dijkstra from "../views/Dijkstra";
@@ -12,8 +12,8 @@ Vue.use(VueRouter);
 
 const routes = [{
         path: "/",
-        name: "principal",
-        component: Principal
+        name: "presentacion",
+        component: Presentacion
     },
     {
         path: "/ingresar-grafo",
