@@ -98,7 +98,6 @@ export default {
           this.esConexo = r.data.esConexo;
         })
         .catch((e) => {
-          console.log(e);
           this.cargando = false;
         });
     },

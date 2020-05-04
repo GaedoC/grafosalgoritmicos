@@ -83,35 +83,13 @@ export default {
     Grafo,
   },
   data: () => ({
-    indiceMaximo: 1,
     cargando: false,
     respuesta: false,
     objetoRespuesta: null,
     origen: null,
     destino: null,
     nodos: [],
-    cy: null,
-    config: {
-      style: [
-        {
-          selector: "node",
-          style: {
-            "background-color": "#7958d5",
-            label: "data(id)",
-          },
-        },
-      ],
-      layout: { name: "grid", rows: 3 },
-    },
   }),
-  watch: {
-    elementos() {
-      this.$nextTick(() => {
-        const cy = this.$refs.cy.instance;
-        this.afterCreated(cy);
-      });
-    },
-  },
   mounted() {
     this.respuesta = false;
     this.objetoRespuesta = null;
@@ -123,38 +101,7 @@ export default {
     }
     this.nodos = nodosActuales;
   },
-  computed: {
-    elementos() {
-      var nodos = [];
-      for (const etiqueta of this.nodos) {
-        if (etiqueta && etiqueta != "") {
-          nodos.push({
-            data: { id: etiqueta },
-            position: {
-              x: 1,
-              y: 1,
-            },
-            group: "nodes",
-          });
-        }
-      }
-      return nodos;
-    },
-  },
   methods: {
-    agregarNodo() {
-      this.indiceMaximo++;
-      var valorAsciiA = 65;
-      var caracter = String.fromCharCode(valorAsciiA + this.indiceMaximo);
-      this.nodos.push(caracter);
-    },
-    eliminarNodo(i) {
-      this.nodos.splice(i, 1);
-    },
-    async afterCreated(cy) {
-      await cy;
-      cy.layout(this.config.layout).run();
-    },
     dijkstra() {
       this.cargando = true;
       var data = {
@@ -173,24 +120,9 @@ export default {
           this.cargando = false;
         })
         .catch((e) => {
-          console.log(e);
           this.cargando = false;
         });
     },
   },
 };
 </script>
-
-<style>
-#cytoscape-div {
-  min-height: 100px;
-  height: 100%;
-}
-
-#cytoscape-div,
-#cytoscape-div > div,
-#cytoscape-div > div > canvas {
-  min-height: 100px !important;
-  height: 100% !important;
-}
-</style>

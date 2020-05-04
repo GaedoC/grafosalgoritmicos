@@ -164,7 +164,6 @@ export default {
         })
         .catch((e) => {
           this.cargando = false;
-          console.log(e);
         });
     },
   },

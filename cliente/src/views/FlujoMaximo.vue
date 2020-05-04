@@ -4,7 +4,7 @@
       <div class="column is-6" style="overflow-y: scroll;">
         <h1 class="title is-marginless">Flujo máximo</h1>
         <div v-if="respuesta">
-          <p>{{ `El flujo máximo es ${this.objetoRespuesta}` }}</p>
+          <p>{{ `El flujo máximo es ${this.objetoRespuesta.flujoMaximo}` }}</p>
         </div>
         <b-field grouped style="margin-top: 20px;">
           <b-field expanded>
@@ -93,21 +93,21 @@ export default {
       this.cargando = true;
       var data = {
         grafo: this.$store.getters.grafo,
+        inicio: this.origen,
+        final: this.destino,
       };
       axios({
         method: "post",
-        url: this.$apiUrl + "/dijkstra",
+        url: this.$apiUrl + "/flujo",
         data: data,
       })
         .then((r) => {
-          console.log("Respuesta", r.data);
           this.cargando = false;
           this.respuesta = true;
           this.objetoRespuesta = r.data;
         })
         .catch((e) => {
           this.cargando = false;
-          console.log(e);
         });
     },
   },

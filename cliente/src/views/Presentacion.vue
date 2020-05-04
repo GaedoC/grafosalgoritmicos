@@ -40,18 +40,6 @@ export default {
         ],
       },
       {
-        nombre: "Carlos Montuyao",
-        imagen: "https://randomuser.me/api/portraits/men/70.jpg",
-        redes: [
-          {
-            nombre: "GitHub",
-            url: "https://github.com/Dymmon",
-            icono: "github-circle",
-            color: "#000",
-          },
-        ],
-      },
-      {
         nombre: "Mariam Maldonado",
         imagen:
           "https://user-images.githubusercontent.com/16374322/80976941-114bbe00-8df2-11ea-9d68-6c42c6846944.jpeg",
@@ -62,8 +50,28 @@ export default {
             icono: "github-circle",
             color: "#000",
           },
+          {
+            nombre: "Twitter",
+            url: "https://twitter.com/mariam_vmm",
+            icono: "twitter",
+            color: "#1da1f2",
+          },
         ],
       },
+      {
+        nombre: "Carlos Montuyao",
+        imagen:
+          "https://user-images.githubusercontent.com/16374322/80985782-ad2ef700-8dfd-11ea-93ab-23f6434a7422.png",
+        redes: [
+          {
+            nombre: "GitHub",
+            url: "https://github.com/Dymmon",
+            icono: "github-circle",
+            color: "#000",
+          },
+        ],
+      },
+
       {
         nombre: "Jorge Verdugo",
         imagen:
@@ -74,6 +82,12 @@ export default {
             url: "https://github.com/mapacheverdugo",
             icono: "github-circle",
             color: "#000",
+          },
+          {
+            nombre: "Instagram",
+            url: "http://instagram.com/mapacheverdugo",
+            icono: "instagram",
+            color: "#c13584",
           },
           {
             nombre: "Twitter",
@@ -95,11 +109,12 @@ export default {
             color: "#000",
           },
           {
-            nombre: "Instagram",
-            url: "http://instagram.com/pollitomayo",
-            icono: "instagram",
-            color: "#c13584",
+            nombre: "Twitter",
+            url: "https://twitter.com/pollitomayonesa",
+            icono: "twitter",
+            color: "#1da1f2",
           },
+
           {
             nombre: "DeviantArt",
             url: "https://www.deviantart.com/pollitomayo",
