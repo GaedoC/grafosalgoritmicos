@@ -10,7 +10,7 @@
                 <b-field expanded>
                   <b-autocomplete
                     rounded
-                    v-model="origenes"
+                    v-model="origen"
                     :data="nodos"
                     keep-first
                     open-on-focus
@@ -24,7 +24,7 @@
                 <b-field expanded>
                   <b-autocomplete
                     rounded
-                    v-model="destinos"
+                    v-model="destino"
                     :data="nodos"
                     keep-first
                     open-on-focus
@@ -122,6 +122,24 @@ export default {
     async afterCreated(cy) {
       await cy;
       cy.layout(this.config.layout).run();
+    },
+    dijkstra() {
+      var data = {
+        grafo: this.grafo,
+        inicio: this.origen,
+        final: this.destino
+      };
+      axios({
+        method: post,
+        url: this.$apiUrl + "/dijkstra",
+        data: data
+      })
+        .then(r => {
+          console.log("Respuesta", r.data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
     }
   }
 };

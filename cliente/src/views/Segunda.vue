@@ -90,6 +90,19 @@ export default {
     async afterCreated(cy) {
       await cy;
       cy.layout(this.config.layout).run();
+    },
+    obtenerMatriz() {
+      axios({
+        method: post,
+        url: this.$apiUrl + "/matriz",
+        data: this.grafo
+      })
+        .then(r => {
+          console.log("Respuesta", r.data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
     }
   }
 };

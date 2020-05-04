@@ -18,6 +18,7 @@ Vue.use(VueSidebarMenu);
 Vue.use(VueKatex, {
   globalOptions: {},
 });
+Vue.prototype.$apiUrl = "http://localhost:5151";
 
 new Vue({
   router,
