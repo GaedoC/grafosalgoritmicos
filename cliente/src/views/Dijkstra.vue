@@ -12,14 +12,6 @@
           >
             <p class="title">Camino más corto</p>
             <div class="column">
-              <div v-if="respuesta">
-                <p>
-                  {{
-                    `La duración del camino es de ${this.objetoRespuesta.pesoTotal}`
-                  }}
-                </p>
-                <p>{{ `La ruta fue: ${this.objetoRespuesta.ruta}` }}</p>
-              </div>
               <b-field grouped style="margin-top: 20px;">
                 <b-field expanded>
                   <b-autocomplete
