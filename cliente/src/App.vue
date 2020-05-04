@@ -26,37 +26,37 @@ export default {
         {
           href: "/",
           title: "Presentación",
-          icon: "fa fa-user"
+          icon: "checkbox-blank-circle-outlined"
         },
         {
           href: "/ingresar-grafo",
           title: "Ingresar Grafo",
-          icon: "fa fa-user"
+          icon: "checkbox-blank-circle-outlined"
         },
         {
           href: "/matriz-de-caminos",
           title: "Matriz de Caminos",
-          icon: "fa fa-user"
+          icon: "checkbox-blank-circle-outlined"
         },
         {
           href: "/camino-mas-corto",
           title: "Camino más corto",
-          icon: "fa fa-user"
+          icon: "checkbox-blank-circle-outlined"
         },
         {
           href: "/hamiltoniano-o-euleriano",
           title: "¿Hamiltoniano o Euleriano?",
-          icon: "fa fa-user"
+          icon: "checkbox-blank-circle-outlined"
         },
         {
           href: "/flujo-maximo",
           title: "Flujo máximo",
-          icon: "fa fa-user"
+          icon: "checkbox-blank-circle-outlined"
         },
         {
           href: "/arbol-generador-minimo",
           title: "Árbol generador mínimo",
-          icon: "fa fa-user"
+          icon: "checkbox-blank-circle-outlined"
         },
       ]
     };
