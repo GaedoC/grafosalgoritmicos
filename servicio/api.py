@@ -31,7 +31,7 @@ def flujo_maximo():
     content = request.get_json(silent=True)
     return flujo(content)
 
-# c. Árbol generador mínimo mediante prim o kruskal
+# c. Árbol generador mínimo mediante Prim o Kruskal
 @application.route('/arbol', methods=['POST'])
 def arbol_generador():
     content = request.get_json(silent=True)

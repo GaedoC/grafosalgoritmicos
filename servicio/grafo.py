@@ -113,12 +113,23 @@ class Grafo(object):
             ruta.appendleft(vertice_actual)
         return (list(deque(ruta)), peso_total)
 
-    def aristas_incidentes(self, v):
+    def aristas_incidentes(self, vertice):
         aristas = []
         for arista in self.aristas:
-            if (arista.inicio == v):
+            if (arista.inicio == vertice):
                 aristas.append(arista)
         return aristas
+
+    def vertices_adyacentes(self, vertice):
+        adyacentes = []
+        for arista in self.aristas:
+            if (vertice == arista.inicio):
+                adyacentes.append(arista.final)
+            elif (vertice == arista.final):
+                adyacentes.append(arista.inicio)
+
+        adyacentes.sort()
+        return adyacentes
 
     @property
     def matriz_adyacencia(self):
@@ -137,21 +148,17 @@ class Grafo(object):
 
     @property
     def es_conexo(self):
-        a = 0
-        mat = self.matriz_caminos_largo_n(a)
-        a += 1
-        while(a < len(self.vertices)):
-            mat += self.matriz_caminos_largo_n(a)
-            a += 1
-        p = 0
-        while(p < len(mat)):
-            q = 0
-            while(q < len(mat)):
-                if(mat[p][q] == 0):
-                    return False
-                q += 1
-            p += 1
-        return True
+        vertice = self.vertices[0]
+        visitados = []
+        visitados.append(vertice)
+
+        for visitado in visitados:
+            adyacentes = self.vertices_adyacentes(visitado)
+            for adyacente in adyacentes:
+                if (adyacente not in visitados):
+                    visitados.append(adyacente)
+
+        return len(visitados) == len(self.vertices)
 
     @property
     def grados(self):
@@ -271,6 +278,36 @@ class Grafo(object):
             v_camino.append(v_actual)
             return v_camino
         return 'No hay camino euleriano'
+
+    def bfs(self, s, t, padre):
+        ''' Devuelve true si existe un camino entre s y t,
+            en el parametro padre devuelve desde donde se
+            llego
+        '''
+        for v in self.vertices:
+            padre[v] = None
+        cola = collections.deque()
+        visitados = {}
+
+        for v in self.vertices:
+            visitados[v] = False
+
+        cola.append(s)
+        visitados[s] = True
+
+        while len(cola) > 0:
+            u = cola.pop()
+            ady = self.conexiones[u]
+            if ady is None:
+                continue
+
+            for v in ady:
+                if (visitados[v] == False) and self.grafo_residual[(u, v)] > 0:
+                    cola.append(v)
+                    padre[v] = u
+                    visitados[v] = True
+        print(self.reconstruir_camino(padre, 1))
+        return visitados[t]
 
     @property
     def kruskal(self):

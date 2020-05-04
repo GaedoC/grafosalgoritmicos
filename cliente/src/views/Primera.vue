@@ -3,10 +3,10 @@
     <div class="card" style="width: 100%; height: calc(100vh - 80px); border-radius: 10px;">
       <div class="is-full-h" style="padding: 20px;">
         <div class="columns is-marginless is-paddingless is-full-h">
-          <div class="column is-7" style="overflow-y: scroll; padding-right: 20px">
+          <div class="column is-6" style="overflow-y: scroll; padding-right: 20px">
             <stepper-data />
           </div>
-          <div class="column is-5">
+          <div class="column is-6">
             <cytoscape
               ref="cy"
               :config="config"
@@ -26,7 +26,7 @@
 import StepperData from "../components/StepperData.vue";
 
 export default {
-  name: "Main",
+  name: "Primera",
   components: {
     StepperData
   },
