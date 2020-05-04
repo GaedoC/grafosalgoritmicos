@@ -17,6 +17,11 @@
               />
             </div>
           </div>
+          <div>
+            <p>
+              {{ `El peso total es de ${getPesoTotal(arbol)}` }}
+            </p>
+          </div>
         </div>
         <b-button
           style="margin-top: 20px;"
@@ -72,6 +77,7 @@ export default {
           selector: "edge",
           style: {
             width: 3,
+            label: "data(weight)",
             "curve-style": "bezier",
             "line-color": "#ccc",
             "target-arrow-color": "#ccc",
@@ -84,6 +90,13 @@ export default {
   }),
 
   methods: {
+    getPesoTotal(arbol) {
+      var total = 0;
+      for (const arista of arbol) {
+        total += arista[2];
+      }
+      return total;
+    },
     getGrafoByArbol(arbol, i) {
       var arbolActual = arbol.slice(0, i + 1);
       var nodos = [];

@@ -14,8 +14,28 @@
           >Determinar</b-button
         >
         <div v-if="respuesta">
-          <p>{{`El camino ${this.objetoRespuesta[0].es ? '' : 'no'} es Hamiltoniano${this.objetoRespuesta[0].es ? (' y su camino es: ' + this.objetoRespuesta[0].camino) : ''}.`}}</p>
-          <p>{{`El camino ${this.objetoRespuesta[1].es ? '' : 'no'} es Euleriano${this.objetoRespuesta[1].es ? (' y su camino es: ' + this.objetoRespuesta[1].camino) : ''}.`}}</p>
+          <p>
+            {{
+              `El camino ${
+                this.objetoRespuesta[0].es ? "" : "no"
+              } es Hamiltoniano${
+                this.objetoRespuesta[0].es
+                  ? " y su camino es: " + this.objetoRespuesta[0].camino
+                  : ""
+              }.`
+            }}
+          </p>
+          <p>
+            {{
+              `El camino ${
+                this.objetoRespuesta[1].es ? "" : "no"
+              } es Euleriano${
+                this.objetoRespuesta[1].es
+                  ? " y su camino es: " + this.objetoRespuesta[1].camino
+                  : ""
+              }.`
+            }}
+          </p>
         </div>
       </div>
       <div class="column is-6" style="border-left: 2px solid #f5f5f5; ">
@@ -59,11 +79,11 @@ export default {
       layout: { name: "grid", rows: 3 },
     },
   }),
-   mounted() {
-     this.respuesta = false;
-     this.objetoRespuesta = null;
-     this.cargando = false;
-   },
+  mounted() {
+    this.respuesta = false;
+    this.objetoRespuesta = null;
+    this.cargando = false;
+  },
   watch: {
     elementos() {
       this.$nextTick(() => {
@@ -118,21 +138,21 @@ export default {
           var respuesta = r.data;
           var hamilton = {
             es: false,
-            camino: []
+            camino: [],
           };
           var euler = {
             es: false,
-            camino: []
+            camino: [],
           };
           for (let index = 0; index < respuesta.length; index++) {
             const element = respuesta[index];
             var atributo = Object.keys(element);
 
-            if(atributo == "hamiltoniano"){
+            if (atributo == "hamiltoniano") {
               hamilton.es = element.hamiltoniano;
-            } else if(atributo == "euleriano"){
+            } else if (atributo == "euleriano") {
               euler.es = element.euleriano;
-            } else if (atributo == "caminoEuleriano"){
+            } else if (atributo == "caminoEuleriano") {
               euler.camino = element.caminoEuleriano;
             } else {
               hamilton.camino = element.caminoHamiltoniano;
