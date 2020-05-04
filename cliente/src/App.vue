@@ -53,7 +53,7 @@ export default {
       editarGrafoModal: false,
       menu: [
         {
-          href: "/presentacion",
+          href: "/",
           title: "Presentación",
           icon: "fa fa-user",
         },
@@ -61,27 +61,27 @@ export default {
           component: separator,
         },
         {
-          href: "/matriz-de-caminos",
+          href: "/matriz",
           title: "Matriz de caminos",
           icon: "fa fa-table",
         },
         {
-          href: "/camino-mas-corto",
+          href: "/dijkstra",
           title: "Camino más corto",
           icon: "fa fa-route",
         },
         {
-          href: "/hamiltoniano-o-euleriano",
+          href: "/hamiltoniano-euleriano",
           title: "¿Hamiltoniano o Euleriano?",
           icon: "fa fa-circle-notch",
         },
         {
-          href: "/flujo-maximo",
+          href: "/flujo",
           title: "Flujo máximo",
           icon: "fa fa-shower",
         },
         {
-          href: "/arbol-generador-minimo",
+          href: "/arbol",
           title: "Árbol generador mínimo",
           icon: "fa fa-tree",
         },

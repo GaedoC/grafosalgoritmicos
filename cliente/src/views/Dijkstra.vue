@@ -12,7 +12,15 @@
           >
             <p class="title">Camino más corto</p>
             <div class="column">
-              <b-field grouped class="is-marginless">
+              <div v-if="respuesta">
+                <p>
+                  {{
+                    `La duración del camino es de ${this.objetoRespuesta.pesoTotal}`
+                  }}
+                </p>
+                <p>{{ `La ruta fue: ${this.objetoRespuesta.ruta}` }}</p>
+              </div>
+              <b-field grouped style="margin-top: 20px;">
                 <b-field expanded>
                   <b-autocomplete
                     rounded
@@ -51,14 +59,6 @@
                 @click="calcular"
                 >Calcular</b-button
               >
-              <div v-if="respuesta">
-                <p>
-                  {{
-                    `La duración del camino es de ${this.objetoRespuesta.pesoTotal}`
-                  }}
-                </p>
-                <p>{{ `La ruta fue: ${this.objetoRespuesta.ruta}` }}</p>
-              </div>
             </div>
           </div>
           <div class="column is-6">

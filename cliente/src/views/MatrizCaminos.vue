@@ -1,18 +1,21 @@
 <template>
   <div class="is-full-h" style="padding: 20px;">
     <div class="columns is-marginless is-paddingless is-full-h">
-      <div
-        class="column is-6 is-full-h"
-        style="display: flex; flex-direction: column; justify-content: space-between;"
-      >
-        <h1 class="title">Matriz de camino</h1>
+      <div class="column is-6 is-full-h">
+        <h1 class="title">Matriz de camino de largo n</h1>
+        <p v-if="esConexo != null" style="padding: 0 0 10px  0;">
+          El grafo<strong>{{
+            esConexo ? " es conexo" : " no es conexo"
+          }}</strong>
+        </p>
+
         <matriz v-if="matriz != null" :vertices="vertices" :matriz="matriz" />
-        <b-field expanded position="is-centered">
+        <b-field style="margin-top: 20px;">
           <b-numberinput
             controls-position="compact"
             controls-rounded
-            style="max-width: 200px"
             min="0"
+            expanded
             v-model="peso"
           ></b-numberinput>
         </b-field>

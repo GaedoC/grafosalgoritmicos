@@ -3,8 +3,8 @@
     <div class="columns is-marginless is-paddingless is-full-h">
       <div class="column is-6" style="overflow-y: scroll; padding-right: 20px">
         <p class="title">Flujo máximo</p>
-        <div class="column" v-if="!calculado">
-          <b-field grouped class="is-marginless">
+        <div class="column">
+          <b-field grouped class="is-marginless" style="margin-top: 20px;">
             <b-field expanded>
               <b-autocomplete
                 rounded
@@ -37,12 +37,6 @@
           <b-button type="is-primary" outlined rounded expanded
             >Calcular</b-button
           >
-        </div>
-        <div v-else>
-          <b-button type="is-primary" outlined rounded expanded :disabled="true"
-            >Calcular</b-button
-          >
-          <p>El camino más corto es</p>
         </div>
       </div>
       <div class="column is-6" style="border-left: 2px solid #f5f5f5; ">

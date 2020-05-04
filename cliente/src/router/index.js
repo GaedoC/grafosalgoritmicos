@@ -1,7 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Presentacion from "../views/Presentacion";
-import IngresarGrafo from "../views/IngresarGrafo";
 import MatrizCaminos from "../views/MatrizCaminos";
 import Dijkstra from "../views/Dijkstra";
 import HamiltonianoEuleriano from "../views/HamiltonianoEuleriano";
@@ -16,28 +15,28 @@ const routes = [{
         component: Presentacion
     },
     {
-        path: "/matriz-de-caminos",
-        name: "matriz-de-caminos",
+        path: "/matriz",
+        name: "matriz",
         component: MatrizCaminos
     },
     {
-        path: "/camino-mas-corto",
+        path: "/dijkstra",
         name: "camino-mas-corto",
         component: Dijkstra
     },
     {
-        path: "/hamiltoniano-o-euleriano",
-        name: "hamiltoniano-o-euleriano",
+        path: "/hamiltoniano-euleriano",
+        name: "hamiltoniano-euleriano",
         component: HamiltonianoEuleriano
     },
     {
-        path: "/flujo-maximo",
-        name: "flujo-maximo",
+        path: "/flujo",
+        name: "flujo",
         component: FlujoMaximo
     },
     {
-        path: "/arbol-generador-minimo",
-        name: "arbol-generador-minimo",
+        path: "/arbol",
+        name: "arbol",
         component: ArbolGenerador
     },
 ];
