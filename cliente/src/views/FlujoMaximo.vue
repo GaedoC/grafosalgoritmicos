@@ -4,7 +4,7 @@
       <div class="column is-6" style="overflow-y: scroll; padding-right: 20px">
         <p class="title">Flujo máximo</p>
         <div class="column">
-          <b-field grouped class="is-marginless">
+          <b-field grouped class="is-marginless" style="margin-top: 20px;">
             <b-field expanded>
               <b-autocomplete
                 rounded

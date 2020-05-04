@@ -19,6 +19,7 @@
           </div>
         </div>
         <b-button
+          style="margin-top: 20px;"
           type="is-primary"
           outlined
           rounded
