@@ -69,6 +69,7 @@ export default {
   },
   data: () => ({
     calculado: false,
+    cargando: false,
     respuesta: false,
     objetoRespuesta: null,
     origen: null,
