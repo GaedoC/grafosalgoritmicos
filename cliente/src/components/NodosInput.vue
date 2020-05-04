@@ -1,5 +1,5 @@
 <template>
-  <div class="is-full-h" style="padding: 20px;">
+  <div class="is-full-h" style="padding: 20px; overflow-y: scroll;">
     <div class="is-full-h columns is-marginless is-paddingless">
       <div class="column" style="padding-right: 20px">
         <b-field grouped v-for="(nodo, i) in nodos" :key="nodo.id">
@@ -37,7 +37,8 @@
           expanded
           @click="agregarNodo"
           icon-left="plus-circle"
-          >Agregar nodo</b-button>
+          >Agregar nodo</b-button
+        >
       </div>
     </div>
   </div>
@@ -70,12 +71,12 @@ export default {
           selector: "node",
           style: {
             "background-color": "#7958d5",
-            label: "data(id)"
-          }
-        }
+            label: "data(id)",
+          },
+        },
       ],
-      layout: { name: "grid", rows: 3 }
-    }
+      layout: { name: "grid", rows: 3 },
+    },
   }),
   mounted() {
     this.$nextTick(() => {
@@ -125,7 +126,7 @@ export default {
     async afterCreated(cy) {
       await cy;
       cy.layout(this.config.layout).run();
-    }
-  }
+    },
+  },
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="is-full-h" style="padding: 20px;">
+  <div class="is-full-h" style="padding: 20px; overflow-y: scroll;">
     <div class="columns is-marginless is-paddingless is-full-h">
       <div class="column" style="padding-right: 20px">
         <b-field
@@ -9,7 +9,7 @@
           :message="validarArista(i)"
         >
           <b-field grouped class="is-marginless">
-            <b-field expanded style="margin-bottom: -12px;">
+            <b-field expanded style="margin-bottom: 5px;">
               <b-autocomplete
                 rounded
                 v-model="origenes[i]"
@@ -23,7 +23,7 @@
                 <template slot="empty">Sin resultados</template>
               </b-autocomplete>
             </b-field>
-            <b-field expanded style="margin-bottom: -12px;">
+            <b-field expanded style="margin-bottom: 5px;">
               <b-autocomplete
                 rounded
                 v-model="destinos[i]"
@@ -55,11 +55,19 @@
               style="margin-top: -25px;"
             >
               <a @click="eliminarArista(i)" style="margin-top: 30px;">
-                <b-icon pack="fa" class="is-danger" icon="minus-circle"></b-icon>
+                <b-icon
+                  pack="fa"
+                  class="is-danger"
+                  icon="minus-circle"
+                ></b-icon>
               </a>
             </b-tooltip>
             <div v-else style="margin-top: 5px;">
-              <b-icon pack="fa" icon="minus-circle" style="color: grey;"></b-icon>
+              <b-icon
+                pack="fa"
+                icon="minus-circle"
+                style="color: grey;"
+              ></b-icon>
             </div>
           </b-field>
         </b-field>
@@ -72,7 +80,8 @@
             expanded
             @click="agregarArista"
             icon-left="plus-circle"
-          >Agregar arista</b-button>
+            >Agregar arista</b-button
+          >
         </div>
       </div>
     </div>
@@ -104,8 +113,8 @@ export default {
           selector: "node",
           style: {
             "background-color": "#7958d5",
-            label: "data(id)"
-          }
+            label: "data(id)",
+          },
         },
         {
           selector: "edge",
@@ -114,12 +123,12 @@ export default {
             "curve-style": "bezier",
             "line-color": "#ccc",
             "target-arrow-color": "#ccc",
-            "target-arrow-shape": "triangle"
-          }
-        }
+            "target-arrow-shape": "triangle",
+          },
+        },
       ],
-      layout: { name: "circle", row: 1 }
-    }
+      layout: { name: "circle", row: 1 },
+    },
   }),
   mounted() {
     this.origenes.push(null);
@@ -134,7 +143,7 @@ export default {
         }
       }
       return true;
-    }
+    },
   },
   methods: {
     agregarArista() {
@@ -156,13 +165,13 @@ export default {
 
       if (!origen || origen == "") {
         errores.push("Debe seleccion un nodo de origen");
-      } else if (!this.nodos.filter(n => n.etiqueta == origen).length) {
+      } else if (!this.nodos.filter((n) => n.etiqueta == origen).length) {
         errores.push("Debe seleccion un nodo de origen válido");
       }
 
       if (!destino || destino == "") {
         errores.push("Debe seleccion un nodo de destino");
-      } else if (!this.nodos.filter(n => n.etiqueta == destino).length) {
+      } else if (!this.nodos.filter((n) => n.etiqueta == destino).length) {
         errores.push("Debe seleccion un nodo de destino válido");
       }
 
@@ -193,7 +202,7 @@ export default {
     },
     getNodosFiltrados(valor) {
       if (valor != null) {
-        return this.nodos.filter(n => {
+        return this.nodos.filter((n) => {
           n.toString()
             .toLowerCase()
             .includes(valor.toString().toLowerCase);
@@ -204,7 +213,7 @@ export default {
     async afterCreated(cy) {
       await cy;
       cy.layout(this.config.layout).run();
-    }
-  }
+    },
+  },
 };
 </script>

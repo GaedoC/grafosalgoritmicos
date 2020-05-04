@@ -36,7 +36,7 @@
       </b-step-item>
       <template slot="navigation" slot-scope="{ previous, next }">
         <div
-          style="padding: 10px 20px; display: flex; justify-content: space-between; align-items: center;"
+          style="heigth: 100%; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center;"
         >
           <b-button
             outlined
@@ -89,7 +89,7 @@
 }
 .step-content {
   padding: 0 !important;
-  height: calc(100% - 77px - 64px);
+  height: calc(100% - 65px - 56px);
 }
 </style>
 
@@ -99,6 +99,7 @@ import NodosInput from "./NodosInput.vue";
 
 export default {
   name: "StepperData",
+  props: ["nodos", "origenes", "destinos", "pesos", "onFinalizar"],
   components: {
     AristasInput,
     NodosInput,
@@ -108,10 +109,6 @@ export default {
       pasoActual: 0,
       prevIcon: "chevron-left",
       nextIcon: "chevron-right",
-      nodos: [],
-      origenes: [],
-      destinos: [],
-      pesos: [],
     };
   },
   computed: {
@@ -133,28 +130,6 @@ export default {
       }
 
       return true;
-    },
-    grafo() {
-      var aristas = [];
-      for (let i = 0; i < this.origenes.length; i++) {
-        const origen = this.origenes[i];
-        const destino = this.destinos[i];
-        const peso = this.pesos[i];
-
-        aristas.push({
-          inicio: origen,
-          final: destino,
-          peso: peso,
-        });
-      }
-      return {
-        grafo: aristas,
-      };
-    },
-  },
-  methods: {
-    onFinalizar() {
-      console.log(this.grafo);
     },
   },
 };

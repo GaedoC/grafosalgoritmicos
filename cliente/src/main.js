@@ -6,7 +6,6 @@ import VueCytoscape from "vue-cytoscape";
 import router from "./router";
 import VueSidebarMenu from 'vue-sidebar-menu';
 
-import "buefy/dist/buefy.css";
 import "katex/dist/katex.min.css";
 import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
 

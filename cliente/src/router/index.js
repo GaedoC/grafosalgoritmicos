@@ -1,13 +1,12 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Principal from "../views/Principal";
-import Primera from "../views/Primera";
-import Segunda from "../views/Segunda";
-import Tercera from "../views/Tercera";
-import Cuarta from "../views/Cuarta";
-import Quinta from "../views/Quinta";
-import Sexta from "../views/Sexta";
-import store from "../store";
+import IngresarGrafo from "../views/IngresarGrafo";
+import MatrizCaminos from "../views/MatrizCaminos";
+import Dijkstra from "../views/Dijkstra";
+import HamiltonianoEuleriano from "../views/HamiltonianoEuleriano";
+import FlujoMaximo from "../views/FlujoMaximo";
+import ArbolGenerador from "../views/ArbolGenerador";
 
 Vue.use(VueRouter);
 
@@ -19,32 +18,32 @@ const routes = [{
     {
         path: "/ingresar-grafo",
         name: "ingresar-grafo",
-        component: Primera
+        component: IngresarGrafo
     },
     {
         path: "/matriz-de-caminos",
         name: "matriz-de-caminos",
-        component: Segunda
+        component: MatrizCaminos
     },
     {
         path: "/camino-mas-corto",
         name: "camino-mas-corto",
-        component: Tercera
+        component: Dijkstra
     },
     {
         path: "/hamiltoniano-o-euleriano",
         name: "hamiltoniano-o-euleriano",
-        component: Cuarta
+        component: HamiltonianoEuleriano
     },
     {
         path: "/flujo-maximo",
         name: "flujo-maximo",
-        component: Quinta
+        component: FlujoMaximo
     },
     {
         path: "/arbol-generador-minimo",
         name: "arbol-generador-minimo",
-        component: Sexta
+        component: ArbolGenerador
     },
 ];
 

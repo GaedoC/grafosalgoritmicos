@@ -1,70 +1,101 @@
 <template>
   <div
-    class="is-flex"
-    style="justify-content: center;
-    align-items: center;
-    height: 100%; padding: 40px;"
+    style="
+    height: 100%;"
   >
-    <div>
-      <sidebar-menu :menu="menu" :collapsed="true" :width="`260px`"/>
+    <sidebar-menu :menu="menu" hide-toggle collapsed :width="`260px`" />
+    <div style="padding: 40px; width: calc(100% - 50px); float: right">
       <router-view />
     </div>
   </div>
 </template>
 
-<script>
-import Principal from "./views/Principal.vue";
+<style lang="scss">
+@import "~bulma/sass/utilities/_all";
 
-export default {
-  name: "App",
-  components: {
-    Principal,
-  },
-  data() {
-    return {
-      menu: [
-        {
-          href: "/",
-          title: "Presentación",
-          icon: "fa fa-user"
-        },
-        {
-          href: "/ingresar-grafo",
-          title: "Ingresar Grafo",
-          icon: "fa fa-user"
-        },
-        {
-          href: "/matriz-de-caminos",
-          title: "Matriz de Caminos",
-          icon: "fa fa-user"
-        },
-        {
-          href: "/camino-mas-corto",
-          title: "Camino más corto",
-          icon: "fa fa-user"
-        },
-        {
-          href: "/hamiltoniano-o-euleriano",
-          title: "¿Hamiltoniano o Euleriano?",
-          icon: "fa fa-user"
-        },
-        {
-          href: "/flujo-maximo",
-          title: "Flujo máximo",
-          icon: "fa fa-user"
-        },
-        {
-          href: "/arbol-generador-minimo",
-          title: "Árbol generador mínimo",
-          icon: "fa fa-user"
-        },
-      ]
-    };
+$primary: #645e9d;
+$primary-invert: findColorInvert($primary);
+$accent: #99d5c9;
+$accent-dark: #69a498;
+$accent-invert: findColorInvert($accent);
+$menu: #101935;
+$menu-invert: findColorInvert($menu);
+
+$colors: (
+  "white": (
+    $white,
+    $black,
+  ),
+  "black": (
+    $black,
+    $white,
+  ),
+  "light": (
+    $light,
+    $light-invert,
+  ),
+  "dark": (
+    $dark,
+    $dark-invert,
+  ),
+  "primary": (
+    $primary,
+    $primary-invert,
+  ),
+  "accent": (
+    $accent,
+    $accent-invert,
+  ),
+  "menu": (
+    $menu,
+    $menu-invert,
+  ),
+  "info": (
+    $info,
+    $info-invert,
+  ),
+  "success": (
+    $success,
+    $success-invert,
+  ),
+  "warning": (
+    $warning,
+    $warning-invert,
+  ),
+  "danger": (
+    $danger,
+    $danger-invert,
+  ),
+);
+
+.v-sidebar-menu .vsm--icon {
+  background-color: transparent !important;
+}
+
+.v-sidebar-menu {
+  background-color: $menu !important;
+  .vsm_expanded {
+    .vsm--item_open {
+      .vsm--link {
+        &_level-1 {
+          background-color: $accent-dark !important;
+          & .vsm--icon {
+            background-color: $accent-dark !important;
+          }
+        }
+      }
+    }
   }
-};
-</script>
+  .vsm--link.vsm--link_active,
+  .vsm--link.vsm--link_exact-active {
+    -webkit-box-shadow: 3px 0px 0px 0px $accent-dark inset !important;
+    box-shadow: 3px 0px 0px 0px $accent-dark inset !important;
+  }
+  .vsm--mobile-bg {
+    background-color: $accent-dark !important;
+  }
+}
 
-<style>
 html,
 body {
   height: 100%;
@@ -72,10 +103,67 @@ body {
 }
 
 body {
-  background-color: #7958d5;
+  background-color: $primary;
 }
 
 .is-full-h {
   height: 100% !important;
 }
+
+@import "~bulma";
+@import "~buefy/src/scss/buefy";
 </style>
+
+<script>
+const separator = {
+  template: `<hr style="border-color: rgba(255, 255, 255, 0.5); margin: 20px;">`,
+};
+
+export default {
+  name: "App",
+  data() {
+    return {
+      menu: [
+        {
+          href: "/",
+          title: "Presentación",
+          icon: "fa fa-user",
+        },
+        {
+          component: separator,
+        },
+        {
+          href: "/ingresar-grafo",
+          title: "Ingresar grafo",
+          icon: "fa fa-share-alt",
+        },
+        {
+          href: "/matriz-de-caminos",
+          title: "Matriz de caminos",
+          icon: "fa fa-table",
+        },
+        {
+          href: "/camino-mas-corto",
+          title: "Camino más corto",
+          icon: "fa fa-route",
+        },
+        {
+          href: "/hamiltoniano-o-euleriano",
+          title: "¿Hamiltoniano o Euleriano?",
+          icon: "fa fa-circle-notch",
+        },
+        {
+          href: "/flujo-maximo",
+          title: "Flujo máximo",
+          icon: "fa fa-shower",
+        },
+        {
+          href: "/arbol-generador-minimo",
+          title: "Árbol generador mínimo",
+          icon: "fa fa-tree",
+        },
+      ],
+    };
+  },
+};
+</script>
