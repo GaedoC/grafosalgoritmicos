@@ -4,6 +4,7 @@ import Buefy from "buefy";
 import VueKatex from "vue-katex";
 import VueCytoscape from "vue-cytoscape";
 import router from "./router";
+import store from "./store";
 import VueSidebarMenu from 'vue-sidebar-menu';
 
 import "katex/dist/katex.min.css";
@@ -21,5 +22,6 @@ Vue.prototype.$apiUrl = "http://localhost:5151";
 
 new Vue({
   router,
+  store,
   render: (h) => h(App),
 }).$mount("#app");

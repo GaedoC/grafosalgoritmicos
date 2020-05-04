@@ -16,21 +16,10 @@
               outlined
               rounded
               expanded
-              v-if="!calculado"
+              @click="obtenerMatriz"
               class="button"
               >Calcular</b-button
             >
-            <div v-else>
-              <b-button
-                type="is-primary"
-                outlined
-                rounded
-                expanded
-                :disabled="true"
-                >Calcular</b-button
-              >
-              <p>La matriz de caminos es conexa</p>
-            </div>
           </div>
           <div class="column is-6">
             <cytoscape
@@ -104,24 +93,15 @@ export default {
     },
   },
   methods: {
-    agregarNodo() {
-      this.indiceMaximo++;
-      var valorAsciiA = 65;
-      var caracter = String.fromCharCode(valorAsciiA + this.indiceMaximo);
-      this.nodos.push(caracter);
-    },
-    eliminarNodo(i) {
-      this.nodos.splice(i, 1);
-    },
     async afterCreated(cy) {
       await cy;
       cy.layout(this.config.layout).run();
     },
     obtenerMatriz() {
       axios({
-        method: post,
+        method: "post",
         url: this.$apiUrl + "/matriz",
-        data: this.grafo,
+        data: this.$store.getters.grafo,
       })
         .then((r) => {
           console.log("Respuesta", r.data);

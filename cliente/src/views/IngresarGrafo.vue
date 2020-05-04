@@ -112,32 +112,6 @@ export default {
       }
       return elementos;
     },
-    grafo() {
-      var aristas = [];
-      var vertices = [];
-
-      for (const nodo of this.nodos) {
-        vertices.push(nodo.etiqueta);
-      }
-
-      for (let i = 0; i < this.origenes.length; i++) {
-        const origen = this.origenes[i];
-        const destino = this.destinos[i];
-        const peso = this.pesos[i];
-
-        aristas.push({
-          inicio: origen,
-          final: destino,
-          peso: peso,
-        });
-      }
-      return {
-        grafo: {
-          aristas,
-          vertices,
-        },
-      };
-    },
   },
   methods: {
     async afterCreated(cy) {
@@ -145,7 +119,14 @@ export default {
       cy.layout(this.config.layout).run();
     },
     onFinalizar() {
-      console.log(this.grafo);
+      console.log(this.nodos, this.origenes, this.destinos, this.pesos);
+      this.$store.commit("crearGrafo", {
+        nodos: this.nodos,
+        origenes: this.origenes,
+        destinos: this.destinos,
+        pesos: this.pesos,
+      });
+      console.log(this.$store.state);
     },
   },
 };
