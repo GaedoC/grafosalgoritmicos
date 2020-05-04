@@ -8,15 +8,14 @@
           outlined
           rounded
           expanded
-          v-if="!calculado"
           class="button"
+          :loading="cargando"
+          @click="obtenerCamino"
           >Determinar</b-button
         >
-        <div v-else>
-          <b-button type="is-primary" outlined rounded expanded :disabled="true"
-            >Calcular</b-button
-          >
-          <p>La matriz de caminos es conexa</p>
+        <div v-if="respuesta">
+          <p>{{`El camino ${this.objetoRespuesta[0].es ? '' : 'no'} es Hamiltoniano${this.objetoRespuesta[0].es ? (' y su camino es: ' + this.objetoRespuesta[0].camino) : ''}.`}}</p>
+          <p>{{`El camino ${this.objetoRespuesta[1].es ? '' : 'no'} es Euleriano${this.objetoRespuesta[1].es ? (' y su camino es: ' + this.objetoRespuesta[1].camino) : ''}.`}}</p>
         </div>
       </div>
       <div class="column is-6" style="border-left: 2px solid #f5f5f5; ">
@@ -42,7 +41,9 @@ export default {
   },
   data: () => ({
     indiceMaximo: 1,
-    calculado: false,
+    cargando: false,
+    respuesta: false,
+    objetoRespuesta: null,
     nodos: [],
     cy: null,
     config: {
@@ -58,6 +59,11 @@ export default {
       layout: { name: "grid", rows: 3 },
     },
   }),
+   mounted() {
+     this.respuesta = false;
+     this.objetoRespuesta = null;
+     this.cargando = false;
+   },
   watch: {
     elementos() {
       this.$nextTick(() => {
@@ -98,16 +104,47 @@ export default {
       await cy;
       cy.layout(this.config.layout).run();
     },
-    obtenerMatriz() {
+    obtenerCamino() {
+      this.cargando = true;
+      var data = {
+        grafo: this.$store.getters.grafo,
+      };
       axios({
-        method: post,
-        url: this.$apiUrl + "/matriz",
-        data: this.grafo,
+        method: "post",
+        url: this.$apiUrl + "/camino",
+        data: data,
       })
         .then((r) => {
-          console.log("Respuesta", r.data);
+          var respuesta = r.data;
+          var hamilton = {
+            es: false,
+            camino: []
+          };
+          var euler = {
+            es: false,
+            camino: []
+          };
+          for (let index = 0; index < respuesta.length; index++) {
+            const element = respuesta[index];
+            var atributo = Object.keys(element);
+
+            if(atributo == "hamiltoniano"){
+              hamilton.es = element.hamiltoniano;
+            } else if(atributo == "euleriano"){
+              euler.es = element.euleriano;
+            } else if (atributo == "caminoEuleriano"){
+              euler.camino = element.caminoEuleriano;
+            } else {
+              hamilton.camino = element.caminoHamiltoniano;
+            }
+          }
+
+          this.objetoRespuesta = [hamilton, euler];
+          this.respuesta = true;
+          this.cargando = false;
         })
         .catch((e) => {
+          this.cargando = false;
           console.log(e);
         });
     },
