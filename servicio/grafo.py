@@ -56,14 +56,6 @@ class Grafo(object):
                 return arista.peso
         return 0
 
-    '''
-    @property
-    def vertices(self):
-        V = []
-        for letra in (''.join(OrderedDict.fromkeys(sum(([arista.inicio, arista.final] for arista in self.aristas), [])))):
-            V.append(letra)
-        return V
-    '''
 
     @property
     def obtener_aristas(self):
@@ -256,52 +248,49 @@ class Grafo(object):
             return v_camino
         return 'No hay ciclo euleriano'
 
-    def bfs(self, s, t, padre):
-        ''' Devuelve true si existe un camino entre s y t,
-            en el parametro padre devuelve desde donde se
-            llego
-        '''
-        for v in self.vertices:
-            padre[v] = None
-        cola = collections.deque()
-        visitados = {}
-
-        for v in self.vertices:
-            visitados[v] = False
-
+    @property
+    def matriz_pesos(self):
+        mat= []
+        for i in range(len(self.vertices)):
+            mat.append([0]*len(self.vertices))
+        a=0
+        while(a<len(self.aristas)):
+            i=buscar_id(self.vertices,self.aristas[a][0])
+            j=buscar_id(self.vertices,self.aristas[a][1])
+            mat[i][j] += self.aristas[a][2]
+            a+=1
+        return mat
+    
+    def bfsv2(self,s,t,padre,fila,mat_ad):
+        visitado=[False]*fila
+        cola=[]
         cola.append(s)
-        visitados[s] = True
+        visitado[s] = True
+        while(cola):
+            u=cola.pop(0)
+            for ind,val in enumerate(mat_ad[u]):
+                if(visitado[ind] == False and val>0):
+                    cola.append(ind)
+                    visitado[ind]=True
+                    padre[ind] = u
+        return True if(visitado[t]) else False
 
-        while len(cola) > 0:
-            u = cola.pop()
-            ady = self.conexiones[u]
-            if ady is None:
-                continue
-
-            for v in ady:
-                if (visitados[v] == False) and self.grafo_residual[(u, v)] > 0:
-                    cola.append(v)
-                    padre[v] = u
-                    visitados[v] = True
-        print(self.reconstruir_camino(padre, 1))
-        return visitados[t]
-
-
+    
     def flujo_maximo(self, origen, destino):
-        aux=self.matriz_adyacencia
+        aux=self.matriz_pesos
         fila=len(aux)
         padre = [-1]*fila
         max_flujo=0
         orig=buscar_id(self.vertices,origen)
         dest=buscar_id(self.vertices,destino)
-        while(self.bfs(orig,dest,padre)):
+        while(self.bfsv2(orig,dest,padre,fila,aux)):
             camino_flujo=float("inf")
             s=dest
             while(s!=orig):
                 camino_flujo=min(camino_flujo,aux[padre[s]][s])
                 s=padre[s]
             max_flujo += camino_flujo
-            v=destino
+            v=dest
             while(v!=orig):
                 u=padre[v]
                 aux[u][v] -= camino_flujo
