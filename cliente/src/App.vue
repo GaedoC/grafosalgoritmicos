@@ -4,26 +4,33 @@
     height: 100%;"
   >
     <sidebar-menu :menu="menu" hide-toggle collapsed :width="`260px`" />
+    <b-modal
+      :active.sync="editarGrafoModal"
+      trap-focus
+      destroy-on-hide
+      aria-role="dialog"
+      aria-modal
+    >
+      <ingresar-grafo :onGuardar="onFinalizar" />
+    </b-modal>
     <div style="padding: 30px; width: calc(100% - 50px); float: right">
-      <b-button
-        type="is-primary"
-        inverted
-        rounded
-        icon-left="pencil"
-        style="margin-bottom: 20px;"
-        size="is-medium"
-        @click="editarGrafoModal = true"
-        >Editar grafo</b-button
-      >
-      <b-modal
-        :active.sync="editarGrafoModal"
-        trap-focus
-        destroy-on-hide
-        aria-role="dialog"
-        aria-modal
-      >
-        <ingresar-grafo :onGuardar="onFinalizar" />
-      </b-modal>
+      <div style="display: flex; justify-content: space-between;">
+        <b-button
+          type="is-primary"
+          inverted
+          rounded
+          icon-left="pencil"
+          style="margin-bottom: 20px;"
+          size="is-medium"
+          @click="editarGrafoModal = true"
+          >Editar grafo</b-button
+        >
+        <a href="https://github.com/Dymmon/app-teoria-de-grafos"
+          ><b-icon style="color: white;" icon="github-circle" size="is-medium">
+          </b-icon
+        ></a>
+      </div>
+
       <div class="is-flex" style="width: 100%;">
         <div
           class="card"
