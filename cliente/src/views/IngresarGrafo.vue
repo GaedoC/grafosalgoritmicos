@@ -15,7 +15,10 @@
               :onFinalizar="onFinalizar"
             />
           </div>
-          <div class="column is-paddingless is-5">
+          <div
+            class="column is-paddingless is-5"
+            style="border-left: 2px solid #f5f5f5; "
+          >
             <grafo
               :nodos="nodos"
               :origenes="origenes"

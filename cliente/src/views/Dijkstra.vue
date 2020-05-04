@@ -36,7 +36,7 @@
             </b-field>
           </b-field>
         </div>
-        <div class="column is-6">
+        <div class="column is-6" style="border-left: 2px solid #f5f5f5; ">
           <grafo
             :nodos="$store.state.nodos"
             :origenes="$store.state.origenes"
