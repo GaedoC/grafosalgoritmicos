@@ -50,12 +50,18 @@
                   </b-autocomplete>
                 </b-field>
               </b-field>
-              <b-button type="is-primary" outlined rounded expanded :loading="cargando" @click="dijkstra"
+              <b-button
+                type="is-primary"
+                outlined
+                rounded
+                expanded
+                :loading="cargando"
+                @click="dijkstra"
                 >Calcular</b-button
               >
             </div>
           </div>
-          <div class="column is-6">
+          <div class="column is-6" style="border-left: 2px solid #f5f5f5; ">
             <grafo
               :nodos="$store.state.nodos"
               :origenes="$store.state.origenes"
