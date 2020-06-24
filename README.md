@@ -14,8 +14,7 @@ API en Flask para manejar grafos. Requiere Python 3 y una versión compatible de
 
 [![Build Status](https://api.travis-ci.com/Dymmon/grafos-punto-jota-pe-ge.svg)](https://api.travis-ci.com/Dymmon/grafos-punto-jota-pe-ge.svg)
 
-### Requerimientos
-
+### Requerimiento
 - Navegador web como [Firefox](https://www.mozilla.org/es-CL/firefox/new/), [Chrome](https://www.google.com/intl/es-419/chrome/), [Edge](https://www.microsoft.com/en-us/edge), [Opera](https://www.opera.com/es) o [Safari](https://www.apple.com/cl/safari/).
 - [Node.js](https://nodejs.org/es/download/), solo en caso de querer servir o construir el código.
 
@@ -41,3 +40,4 @@ API en Flask para manejar grafos. Requiere Python 3 y una versión compatible de
 - Situarse en la carpeta `cliente` con `cd cliente`.
 - Ejecutar `npm install` para instalar las dependencias.
 - Ejecutar `npm run serve` que ejecturá un servidor local con la aplicación web.
+- Exelente  Listo
